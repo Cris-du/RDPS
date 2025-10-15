@@ -25,35 +25,34 @@ The workflows described here cover viral and microbial genome assembly, quality 
 
 ## 💻 Code Availability and Workflow Summary
 
-### 1. **Contig Assembly and Binning**
+### 1. **Contig assembly and binning**
 Metagenomic reads were assembled into contigs and contig ≥ 1 kb were binned into MAG (metagenomic assembly genome).  
 Microbial prediction, quality control and microbial taxonomic classification were performed for all bins.
 
-### 2. **Viral Prediction and vOTU Clustering**
+### 2. **Viral prediction and vOTU clustering**
 Viral sequences prediction from contig ≥3 kb, and quality-checked following the pipeline described in the manuscript.  
 Representative viral genomes were clustered at the species level (**vOTUs**) based on **Average Nucleotide Identity (ANI)**.
 
-### 3. **Viral Gene Prediction and Protein Clustering**
+### 3. **Viral gene prediction and protein clustering**
 Viral coding sequences were predicted and clustered into protein families for downstream comparative and functional analyses.
 
-### 4. **Viral Taxonomic Assignment**
-Viral genomes were grouped into genera and families using **Average Amino Acid Identity (AAI)**, with taxonomic assignment according to the **ICTV** framework.
+### 4. **Viral taxonomic assignment**
+Viral genomes were grouped into genera-level and family-level based on **Average Amino Acid Identity (AAI)**, with taxonomic assignment according to the **International Committee on Taxonomy of Viruses (ICTV)** framework.
 
-### 5. **Uniqueness and Cross-Dataset Comparison of GOHVGD**
-The uniqueness and sharedness of GOHVGD was evaluated against surface-ocean virus datasets (**GOV2.0**) and previously published hydrothermal virus datasets (2022, 2025).  
-Comparisons were made at **vOTU**, **genus**, **family**, and **protein-cluster** levels.
+### 5. **Uniqueness and cross-Dataset Comparison of GOHVGD**
+The uniqueness and sharedness of GOHVGD at **vOTU**, **genus**, **family**, and **protein-clusters (PCs)** levels was evaluated against surface-ocean virus datasets: **Global Ocean Virome 2 (GOV2.0)** and previously published hydrothermal virus datasets (Cheng et al,. 2022, Langwig et al,. 2025). 
 
-### 6. **Virus–Host Interaction Prediction**
-Viral–host links were inferred through:
-- **CRISPR spacer matches**
-- **Whole-genome nucleotide similarity**  
-between GOHVGD vOTUs and GOHMGD genomes.
+### 6. **Virus–Host infective relationship prediction**
+Viral–host infective relationship were inferred through:
+- **CRISPR-Spacer sequence matches**
+- **Whole-genome sequence matches**  
+between GOHVGD and GOHMGD genomes.
 
 ### 7. **Phylogenetic Analysis**
-Phylogenies of **Caudoviricetes** hallmark proteins and GOHMGD representatives were reconstructed to infer evolutionary relationships.
+Perform phylogenetic analysis on the hallmark proteins of **Caudoviricetes** of GOHVGD and genome of GOHMGD.
 
-### 8. **Viral and Microbial Abundance Estimation**
-Normalized abundance of GOHVGD vOTUs and GOHMGD genomes was computed across samples for:
+### 8. **Viral and Microbial Abundance caculation**
+Normalized abundance of GOHVGD vOTUs and GOHMGD genomes was caculated across all samples for:
 - **Macrodiversity (α-, β-diversity)**
 - **Microdiversity (nucleotide diversity, pN/pS ratio)**
 - **Functional system diversity**
@@ -72,7 +71,7 @@ Functional annotation of viral proteins and synteny comparison among ubiquitous 
 ### 12. **Physiological Prediction of GOHMGD Members**
 Prediction of microbial physiological traits:
 - **Optimal growth temperature (OGT)**
-- **Growth rate** (via codon usage models)
+- **Minimum doubling time (MDT)**
 
 ### 13. **Viral Macro- and Micro-Diversity Analyses**
 Computation of **α- and β-diversity indices**, **nucleotide diversity**, and **selection metrics (pN/pS)** across environmental groups.
