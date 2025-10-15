@@ -25,7 +25,7 @@ The workflows described here cover viral and microbial genome assembly, quality 
 
 ## 💻 Code Availability and Workflow Summary
 
-### 1. **Contig assembly and binning**
+### 1. **[Contig assembly and binning](https://github.com/Cris-du/RDPS/commit/2213e09b262300cd71d74adf8c1417d0b164a55b)**
 Metagenomic reads were assembled into contigs and contig ≥ 1 kb were binned into MAG (metagenomic assembly genome).  
 Microbial prediction, quality control and microbial taxonomic classification were performed for all bins.
 
