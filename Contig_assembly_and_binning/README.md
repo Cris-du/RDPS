@@ -48,7 +48,7 @@
 maxbin与metabat2分箱  
 maxbin:`run_MaxBin.pl -contig sampleID_filter_1kb_contigs.fa -abund sampleID_depth_bbmap.txt -min_contig_length 1000 -thread 64 -out sampleID_maxbin_bins`  
 metabat2:`metabat2 -i sampleID_filter_1kb_contigs.fa -a sampleID_jgi_depth.txt -m 1500 -v --cvExt -o sampleID_metabat2_bins -t 64`  
-使用metawrap对仅在maxbin或metabat2成功分箱的sampleID的bin进行质控
-`metaWRAP bin_refinement -t 40 -c 50 -x 10 -o sampleID_metabat2(maxbin)_bins_metawrap_checkm -A sampleID_metabat2(maxbin)_bins --keep-ambiguous`  
 使用metawrap对maxbin与metabat2分箱结果进行精炼  
 `metaWRAP bin_refinement -t 40 -c 50 -x 5 -o sampleID_metawrap_bins -A sampleID_maxbin_bins -B sampleID_metabat2_bins --keep-ambiguous`  
+使用metawrap对仅在maxbin或metabat2成功分箱的sampleID的bin进行质控
+`metaWRAP bin_refinement -t 40 -c 50 -x 5 -o sampleID_metabat2(maxbin)_bins_metawrap_checkm -A sampleID_metabat2(maxbin)_bins --keep-ambiguous`  
