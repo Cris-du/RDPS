@@ -2,31 +2,33 @@
 ---
 ## Install dependencies  
 为了reads质控  
-`fastp 0.23.3`,可参照[fastp](https://github.com/OpenGene/fastp)  
+`fastp 0.23.3`,相关配置方法可参照[fastp](https://github.com/OpenGene/fastp)  
 
 为了拼接contigs与过滤contigs  
-`MEGAHIT v1.2.9`,可参照[megahit](https://github.com/voutcn/megahit)
-`seqkit v2.10.1`,可参照[seqkit](https://github.com/shenwei356/seqkit)  
+`MEGAHIT v1.2.9`,相关配置方法可参照[megahit](https://github.com/voutcn/megahit)  
+`seqkit v2.10.1`,相关配置方法可参照[seqkit](https://github.com/shenwei356/seqkit)  
 
 为了binning
-`samtools 1.19.2`,可参照[samtools](https://github.com/samtools/samtools)  
-`BBMap 38.18`,可参照[bbmap](https://github.com/BioInfoTools/BBMap?tab=readme-ov-file)  
-`MetaBAT2 2.15`,可参照[metabat2](https://bitbucket.org/berkeleylab/metabat/src/master/)  
-`MaxBin 2.2.7`,可参照[maxbin](https://sourceforge.net/projects/maxbin/)  
-`metaWRAP v=1.3.2`,可参照[metawrap](https://github.com/bxlab/metaWRAP)  
-`GTDB-Tk v2.4.0`,可参照[GTDBTk](https://github.com/Ecogenomics/GTDBTk)  
+`samtools 1.19.2`,相关配置方法可参照[samtools](https://github.com/samtools/samtools)  
+`BBMap 38.18`,相关配置方法可参照[bbmap](https://github.com/BioInfoTools/BBMap?tab=readme-ov-file)  
+`MetaBAT2 2.15`,相关配置方法可参照[metabat2](https://bitbucket.org/berkeleylab/metabat/src/master/)  
+`MaxBin 2.2.7`,相关配置方法可参照[maxbin](https://sourceforge.net/projects/maxbin/)  
+`metaWRAP v=1.3.2`,相关配置方法可参照[metawrap](https://github.com/bxlab/metaWRAP)  
+
+为了微生物基因组分类
+`GTDB-Tk v2.4.0`,相关配置方法可参照[GTDBTk](https://github.com/Ecogenomics/GTDBTk)  
 
 你需要可以运行以下命令  
 `fastp`  
 `megahit`  
-`bbmap.sh`  
+`seqkit`  
 `samtools`  
-`run_MaxBin.pl`  
+`bbmap.sh`  
 `jgi_summarize_bam_contig_depths`  
+`run_MaxBin.pl`  
 `metabat2`  
 `metaWRAP`  
-`seqkit`  
-`gtdbtk`
+`gtdbtk`  
 
 使用`fastp`进行reads质控（包括修剪, 去除接头）  
 准备已经下载好的宏基因组测序reads文件  
