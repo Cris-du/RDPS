@@ -15,6 +15,7 @@ provirus边界识别与确认
 
 为了vOTU聚类  
 `anicalc.py`, `aniclust.py`来源于`checkv`,相关配置参照[checkv](https://bitbucket.org/berkeleylab/checkv/src/master/#markdown-header-checkv-database)  
+`merge_ani_tsv.py`为本人自己写的脚本,仅供参考  
 
 你需要可以运行以下命令  
 `seqkit`  
@@ -42,85 +43,45 @@ genomad end-to-end --cleanup -t 8 --splits 8 sampleID_filter_3kb_contigs.fa samp
 
 使用`checkv`进行病毒质量检测  
 ```
-checkv end_to_end sampleID_genomad_step1_raw_virus_virus.fna sampleID_genomad_step1_raw_virus_virus -t 4
-```
-双端文件
-```
-cat *forward_fastped_reads.fq.gz > sampleID_merge_forward_fastped_reads.fq.gz, cat *reverse_fastped_reads.fq.gz > sampleID_merge_reverse_fastped_reads.fq.gz
+checkv end_to_end sampleID_step1_genomad_virus.fna sampleID_step1_genomad_step1_checkv -t 4
 ```
 
-使用`megahit`进行contig拼接  
-单端测序文件拼接
+基于`./sampleID_step1_genomad_step1_checkv/quality_summary.tsv识别provirus边界    
 ```
-megahit --continue --min-count 2 --k-min 21 --k-max 255 --k-step 4 -t 20 -r sampleID_merge_single_fastped_reads.fq.gz -o sampleID_raw_contigs.fa
+python ./check_provirus.py -it ./sampleID_step1_genomad_step1_checkv/quality_summary.tsv -ifc ./sampleID_step1_genomad_step1_checkv/proviruses.fna -ifg sampleID_step1_genomad_virus.fna -o sampleID_no_provirus_virus.fna -og sampleID_provirus_part1.fna -ogc sampleID_provirus_part2.fna
 ```
-双端测序文件拼接
+使用`genomad`对`sampleID_provirus_part2.fna`进行二次病毒确认
 ```
-megahit --continue --min-count 2 --k-min 21 --k-max 255 --k-step 4 -t 20 -1 sampleID_merge_forward_fastped_reads.fq.gz -2 sampleID_merge_reverse_fastped_reads.fq.gz -o sampleID_raw_contigs.fa
-```
-
-
-过滤出长度≥1kb的contigs  
-```
-seqkit seq -g -j 20 -m 1000 sampleID_raw_contigs.fa > sampleID_filter_1kb_contigs.fa
-```
-获得sam文件与bbmap_depth文件  
-单端
-```
-bbmap.sh in=sampleID_merge_single_fastped_reads.fq.gz ref=sampleID_filter_1kb_contigs.fa nodisk k=15 minid=0.9 keepnames=t covstats=sampleID_depth_bbmap.txt minaveragequality=5 outm=sampleID_bbmap.sam threads=64
-```
-双端
-```
-bbmap.sh in=sampleID_merge_forward_fastped_reads.fq.gz in2=sampleID_merge_reverse_fastped_reads.fq.gz ref=sampleID_filter_1kb_contigs.fa nodisk k=15 minid=0.9 keepnames=t covstats=sampleID_depth_bbmap.txt minaveragequality=5 outm=sampleID_bbmap.sam threads=64
+genomad end-to-end --cleanup -t 8 --splits 8 sampleID_provirus_part2.fna sampleID_provirus_part2_step2_genomad ./genomad_db
 ```
 
-转换为bam文件,并进行排序与索引  
-转换
+使用`checkv`对`./sampleID_provirus_part2_step2_genomad/sampleID_provirus_part2_step2_genomad_summary/sampleID_provirus_part2_step2_genomad_virus.fna`进行病毒质量检测  
 ```
-samtools view -bS -h -@ 4 sampleID_bbmap.sam -o sampleID_bbmap.bam
+checkv end_to_end ./sampleID_provirus_part2_step2_genomad_virus.fna sampleID_step2_genomad_provirus_step2_checkv -t 4
 ```
-排序与索引
-```
-samtools sort -@ 4 -o sampleID_sorted_bbmap.bam sampleID_bbmap.bam && samtools index sampleID_sorted_bbmap.bam
-```
-获得jgi_depth文件  
-```
-jgi_summarize_bam_contig_depths --outputDepth sampleID_jgi_depth.txt sampleID_sorted_bbmap.bam
-```
-maxbin与metabat2分箱  
-maxbin
-```
-run_MaxBin.pl -contig sampleID_filter_1kb_contigs.fa -abund sampleID_depth_bbmap.txt -min_contig_length 1000 -thread 64 -out ./sampleID_maxbin_bins
-```
-metabat2
-```
-metabat2 -i sampleID_filter_1kb_contigs.fa -a sampleID_jgi_depth.txt -m 1500 -v --cvExt -o ./sampleID_metabat2_bins -t 64
-```
+合并`sampleID_no_provirus_virus.fna`,`sampleID_provirus_part1.fna`,`sampleID_provirus_part2_step2_genomad_virus.fna`记为`sampleID_virus_final.fna`,所有样本的病毒结果组成`GOHVGD`  
 
-使用metawrap对maxbin与metabat2分箱结果进行精炼  
-```
-metaWRAP bin_refinement -t 40 -c 50 -x 5 -o ./sampleID_metawrap_bins -A ./sampleID_maxbin_bins -B ./sampleID_metabat2_bins --keep-ambiguous
-```
+对`GOHVGD`进行vOTU聚类,参照[checkv](https://bitbucket.org/berkeleylab/checkv/src/master/#markdown-header-checkv-database)的Supporting code提供的方法流程,由Nayfach, S.等人提供：Nayfach, S., Camargo, A.P., Schulz, F. et al. CheckV assesses the quality and completeness of metagenome-assembled viral genomes. Nat Biotechnol 39, 578–585 (2021). [https://doi.org/10.1038/s41587-020-00774-7](https://doi.org/10.1038/s41587-020-00774-7)  
 
-得到的metawrap精炼bin位于`./sampleID_metawrap_bins/metawrap_50_5_bins`  
-
-使用metawrap对仅在maxbin或metabat2成功分箱的sampleID的bin进行质控  
+### Rapid genome clustering based on pairwise ANI  
+合并所有`sampleID_virus_final.fna`为`GOHVGD.fna`
+First, create a blast+ database:  
 ```
-metaWRAP bin_refinement -t 40 -c 50 -x 5 -o ./sampleID_metabat2(maxbin)_bins_metawrap -A ./sampleID_metabat2(maxbin)_bins --keep-ambiguous
+makeblastdb -in GOHVGD.fna -dbtype nucl -out GOHVGD_db
 ```
-
-人工筛选`.stats`中完整度≥50%且污染度≤5%的`bins`,作为通过`metawrap`质控的结果的`sampleID_metabat2(maxbin)_bins`,记为`sampleID_metabat2(maxbin)_bins_checked`  
-
-合并`./sampleID_metabat2(maxbin)_bins_checked`以及`./sampleID_metawrap_bins/metawrap_50_5_bins`的`*bin.fa`，作为GOHMGD  
-
-微生物MAG分类   
-安装gtdb-tk数据库  
+Next, 对不同sampleID分别进行blastn比对,目的是为了加快处理速度以及降低内存资源消耗,为了确保全部的序列都能进入blastn报告结果,故设置max_target_seqs为一个极大值,用户可根据自己的数据库规模自行调整:  
 ```
-gtdbtk download-data --data-dir ./gtdbtk_db --batch 4
+blastn -query sampleID_virus_final.fna -db GOHVGD_db -outfmt '6 std qlen slen' -max_target_seqs 100000000 -o sampleID_blastn.tsv -num_threads 64
 ```
-
-存放GOHMGD的`*bin.fa`于同一目录内，如`./GOHMGD/*bin.fa`  
-gtdbtk分类命令
+Next, calculate pairwise ANI by combining local alignments between sequence pairs:  
 ```
-gtdbtk classify_wf --genome_dir ./GOHMGD --out_dir ./GOHMGD_gtdbtk_skip --data_dir ./gtdbtk_db --skip_ani_screen -x fa --cpus 10 --pplacer_cpus 10
+anicalc.py -i sampleID_blastn.tsv -o sampleID_ani.tsv
+```
+将所有`sampleID_ani.tsv`移动至单一目录GOHVGD_ani_dir下,合并为`GOHVGD_ani.tsv`  
+```
+python merge_ani_tsv.py -i GOHVGD_ani_dir -o GOHVGD_ani.tsv
+```
+Finally, perform CD-HIT-like clustering using the MIUVIG recommended-parameters (95% ANI + 85% AF):  
+```
+aniclust.py --fna GOHVGD.fna --ani GOHVGD_ani.tsv --out GOHVGD_clusters.tsv --min_ani 95 --min_tcov 85 --min_qcov 0
 ```
