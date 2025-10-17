@@ -9,6 +9,7 @@
 `MaxBin 2.2.7`  
 `metaWRAP v=1.3.2`  
 `seqkit v2.10.1`  
+`GTDB-Tk v2.4.0`  
 
 你需要可以运行以下命令  
 `fastp`  
@@ -20,6 +21,7 @@
 `metabat2`  
 `metaWRAP`  
 `seqkit`  
+`gtdbtk`
 
 使用`fastp`进行reads质控（包括修剪, 去除接头）  
 准备已经下载好的宏基因组测序reads文件  
@@ -52,18 +54,21 @@
 `jgi_summarize_bam_contig_depths --outputDepth sampleID_jgi_depth.txt sampleID_sorted_bbmap.bam`  
 
 maxbin与metabat2分箱  
-maxbin:`run_MaxBin.pl -contig sampleID_filter_1kb_contigs.fa -abund sampleID_depth_bbmap.txt -min_contig_length 1000 -thread 64 -out sampleID_maxbin_bins`  
-metabat2:`metabat2 -i sampleID_filter_1kb_contigs.fa -a sampleID_jgi_depth.txt -m 1500 -v --cvExt -o sampleID_metabat2_bins -t 64`  
+maxbin:`run_MaxBin.pl -contig sampleID_filter_1kb_contigs.fa -abund sampleID_depth_bbmap.txt -min_contig_length 1000 -thread 64 -out ./sampleID_maxbin_bins`  
+metabat2:`metabat2 -i sampleID_filter_1kb_contigs.fa -a sampleID_jgi_depth.txt -m 1500 -v --cvExt -o ./sampleID_metabat2_bins -t 64`  
 
 使用metawrap对maxbin与metabat2分箱结果进行精炼  
-`metaWRAP bin_refinement -t 40 -c 50 -x 5 -o sampleID_metawrap_bins -A sampleID_maxbin_bins -B sampleID_metabat2_bins --keep-ambiguous`  
+`metaWRAP bin_refinement -t 40 -c 50 -x 5 -o ./sampleID_metawrap_bins -A ./sampleID_maxbin_bins -B ./sampleID_metabat2_bins --keep-ambiguous`  
 
-得到的metawrap精炼bin位于`sampleID_metawrap_bins/metawrap_50_5_bins`  
+得到的metawrap精炼bin位于`./sampleID_metawrap_bins/metawrap_50_5_bins`  
 
 使用metawrap对仅在maxbin或metabat2成功分箱的sampleID的bin进行质控  
-`metaWRAP bin_refinement -t 40 -c 50 -x 5 -o sampleID_metabat2(maxbin)_bins_metawrap -A sampleID_metabat2(maxbin)_bins --keep-ambiguous`  
+`metaWRAP bin_refinement -t 40 -c 50 -x 5 -o ./sampleID_metabat2(maxbin)_bins_metawrap -A ./sampleID_metabat2(maxbin)_bins --keep-ambiguous`  
 
 人工筛选`.stats`中完整度≥50%且污染度≤5%的bins,作为通过metawrap质控的结果的sampleID_metabat2(maxbin)_bins,记为sampleID_metabat2(maxbin)_bins_checked  
 
-合并sampleID_metabat2(maxbin)_bins_checked以及sampleID_metawrap_bins/metawrap_50_5_bins的`*bin.fa`，作为GOHMGD  
+合并`./sampleID_metabat2(maxbin)_bins_checked`以及`./sampleID_metawrap_bins/metawrap_50_5_bins`的`*bin.fa`，作为GOHMGD  
 
+微生物MAG分类  
+存放GOHMGD的`*bin.fa`于同一目录内，如`./GOHMGD/*bin.fa`  
+gtdbtk分类命令:`gtdbtk classify_wf --genome_dir ./GOHMGD --out_dir ./GOHMGD_gtdbtk_skip --skip_ani_screen -x fa --cpus 10 --pplacer_cpus 10`
