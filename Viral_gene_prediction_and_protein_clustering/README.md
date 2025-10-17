@@ -14,36 +14,22 @@
 `prodigal-gv`  
 `cd-hit`  
 
-使用`fastp`进行reads质控（包括修剪, 去除接头）  
-准备已经下载好的宏基因组测序reads文件  
-单端测序：`RUNID_single_reads.fq.gz`  
-双端测序：`RUNID_forward_reads.fq.gz`, `RUNID_reverse_reads.fq.gz`  
+使用`prodigal-gv`对GOHVGD进行病毒基因预测,设定每个样本的病毒序列文件为`sampleID_virus.fna`  
+```
+prodigal-gv -i sampleID_virus.fna -o sampleID_virus.gff -a sampleID_virus.faa -d sampleID_virus.fna -f gff -p meta
+```  
 
-单端命令  
+移动所有样本的蛋白质faa文件至同一目录下,并进行合并至同一个faa文件,为`GOHVGD_protein.faa`  
 ```
-fastp -i RUNID_single_reads.fq.gz -o RUNID_single_fastped_reads.fq.gz -h RUNID_single_fastped_reads_report.html -Q --thread=20 --length_required=15 --n_base_limit=5 --compression=6
-```
-双端命令  
-```
-fastp -i RUNID_forward_reads.fq.gz -I RUNID_reverse_reads.fq.gz -o RUNID_forward_fastped_reads.fq.gz -O RUNID_reverse_fastped_reads.fq.gz -h RUNID_paired_fastped_reads_report.html -Q --thread=20 --length_required=15 --n_base_limit=5 --compression=6
+cat *.faa > GOHVGD_protein.faa
 ```
 
-合并相同样本的不同测序reads文件(`fastp`质控后)  
-单端文件
+使用`cd-hit`对GOHVGD的蛋白质进行聚类  
 ```
-cat *single_fastped_reads.fq.gz > sampleID_merge_single_fastped_reads.fq.gz
-```
-双端文件
-```
-cat *forward_fastped_reads.fq.gz > sampleID_merge_forward_fastped_reads.fq.gz, cat *reverse_fastped_reads.fq.gz > sampleID_merge_reverse_fastped_reads.fq.gz
+cd-hit -i GOHVGD_protein.faa -o GOHVGD_protein_cluster.faa -c 0.6 -aS 0.8 -g 1 -n 4 -d 0 -T 64 -M 0
 ```
 
-使用`megahit`进行contig拼接  
-单端测序文件拼接
+由于原始的聚类结果文件`GOHVGD_protein_cluster.faa.clstr`内容结构非传统表格文件,如tsv,csv等,故提供`transformat_pcs_report.py`脚本以供文件格式转换,用户可酌情使用
 ```
-megahit --continue --min-count 2 --k-min 21 --k-max 255 --k-step 4 -t 20 -r sampleID_merge_single_fastped_reads.fq.gz -o sampleID_raw_contigs.fa
-```
-双端测序文件拼接
-```
-megahit --continue --min-count 2 --k-min 21 --k-max 255 --k-step 4 -t 20 -1 sampleID_merge_forward_fastped_reads.fq.gz -2 sampleID_merge_reverse_fastped_reads.fq.gz -o sampleID_raw_contigs.fa
+python transformat_pcs_report.py -i GOHVGD_protein_cluster.faa.clstr -o GOHVGD_protein_cluster.tsv
 ```
