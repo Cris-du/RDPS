@@ -8,14 +8,14 @@
 `MEGAHIT v1.2.9`,相关配置方法可参照[megahit](https://github.com/voutcn/megahit)  
 `seqkit v2.10.1`,相关配置方法可参照[seqkit](https://github.com/shenwei356/seqkit)  
 
-为了binning
+为了binning  
 `samtools 1.19.2`,相关配置方法可参照[samtools](https://github.com/samtools/samtools)  
 `BBMap 38.18`,相关配置方法可参照[bbmap](https://github.com/BioInfoTools/BBMap?tab=readme-ov-file)  
 `MetaBAT2 2.15`,相关配置方法可参照[metabat2](https://bitbucket.org/berkeleylab/metabat/src/master/)  
 `MaxBin 2.2.7`,相关配置方法可参照[maxbin](https://sourceforge.net/projects/maxbin/)  
 `metaWRAP v=1.3.2`,相关配置方法可参照[metawrap](https://github.com/bxlab/metaWRAP)  
 
-为了微生物基因组分类
+为了微生物基因组分类  
 `GTDB-Tk v2.4.0`,相关配置方法可参照[GTDBTk](https://github.com/Ecogenomics/GTDBTk)  
 
 你需要可以运行以下命令  
@@ -72,7 +72,7 @@ metabat2:`metabat2 -i sampleID_filter_1kb_contigs.fa -a sampleID_jgi_depth.txt -
 使用metawrap对仅在maxbin或metabat2成功分箱的sampleID的bin进行质控  
 `metaWRAP bin_refinement -t 40 -c 50 -x 5 -o ./sampleID_metabat2(maxbin)_bins_metawrap -A ./sampleID_metabat2(maxbin)_bins --keep-ambiguous`  
 
-人工筛选`.stats`中完整度≥50%且污染度≤5%的bins,作为通过metawrap质控的结果的sampleID_metabat2(maxbin)_bins,记为sampleID_metabat2(maxbin)_bins_checked  
+人工筛选`.stats`中完整度≥50%且污染度≤5%的`bins`,作为通过`metawrap`质控的结果的`sampleID_metabat2(maxbin)_bins`,记为`sampleID_metabat2(maxbin)_bins_checked`  
 
 合并`./sampleID_metabat2(maxbin)_bins_checked`以及`./sampleID_metawrap_bins/metawrap_50_5_bins`的`*bin.fa`，作为GOHMGD  
 
