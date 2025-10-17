@@ -1,15 +1,20 @@
 # contig拼接与binning
 ---
 ## Install dependencies  
-`fastp 0.23.3`  
-`MEGAHIT v1.2.9`  
-`samtools 1.19.2`  
-`BBMap 38.18`  
-`MetaBAT2 2.15`  
-`MaxBin 2.2.7`  
-`metaWRAP v=1.3.2`  
-`seqkit v2.10.1`  
-`GTDB-Tk v2.4.0`  
+为了reads质控  
+`fastp 0.23.3`,可参照[fastp](https://github.com/OpenGene/fastp)  
+
+为了拼接contigs与过滤contigs  
+`MEGAHIT v1.2.9`,可参照[megahit](https://github.com/voutcn/megahit)
+`seqkit v2.10.1`,可参照[seqkit](https://github.com/shenwei356/seqkit)  
+
+为了binning
+`samtools 1.19.2`,可参照[samtools](https://github.com/samtools/samtools)  
+`BBMap 38.18`,可参照[bbmap](https://github.com/BioInfoTools/BBMap?tab=readme-ov-file)  
+`MetaBAT2 2.15`,可参照[metabat2](https://bitbucket.org/berkeleylab/metabat/src/master/)  
+`MaxBin 2.2.7`,可参照[maxbin](https://sourceforge.net/projects/maxbin/)  
+`metaWRAP v=1.3.2`,可参照[metawrap](https://github.com/bxlab/metaWRAP)  
+`GTDB-Tk v2.4.0`,可参照[GTDBTk](https://github.com/Ecogenomics/GTDBTk)  
 
 你需要可以运行以下命令  
 `fastp`  
@@ -69,6 +74,9 @@ metabat2:`metabat2 -i sampleID_filter_1kb_contigs.fa -a sampleID_jgi_depth.txt -
 
 合并`./sampleID_metabat2(maxbin)_bins_checked`以及`./sampleID_metawrap_bins/metawrap_50_5_bins`的`*bin.fa`，作为GOHMGD  
 
-微生物MAG分类  
+微生物MAG分类   
+安装gtdb-tk数据库  
+`gtdbtk download-data --data-dir ./gtdbtk_db --batch 4`  
+
 存放GOHMGD的`*bin.fa`于同一目录内，如`./GOHMGD/*bin.fa`  
-gtdbtk分类命令:`gtdbtk classify_wf --genome_dir ./GOHMGD --out_dir ./GOHMGD_gtdbtk_skip --skip_ani_screen -x fa --cpus 10 --pplacer_cpus 10`
+gtdbtk分类命令:`gtdbtk classify_wf --genome_dir ./GOHMGD --out_dir ./GOHMGD_gtdbtk_skip --data_dir ./gtdbtk_db --skip_ani_screen -x fa --cpus 10 --pplacer_cpus 10`
