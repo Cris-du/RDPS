@@ -1,35 +1,27 @@
-# Viral gene prediction and protein clustering
+# Uniqueness and cross-Dataset Comparison of GOHVGD
 ---
 ## Install dependencies  
-为了蛋白质预测  
-`Prodigal V2.11.0-gv`,相关配置方法可参照[prodigal-gv](https://github.com/apcamargo/prodigal-gv)  
+为了标准化vOTU,PC,genus与family结果  
+`standard_map_result.py`  
 
-为了蛋白质聚类成蛋白质簇  
-`CD-HIT v4.8.1`,相关配置方法可参照[cdhit](https://github.com/weizhongli/cdhit)  
+为了分配独特性与共享的vOTU,PC,genus与family结果  
+`tiqu_belong.py`  
 
-为了识别蛋白质簇的代表性蛋白  
-`transformat_pcs_report.py`    
+构建不同来源环境的contigs与蛋白质比对文件  
+表格：seq1,gohvgd...  
 
-你需要可以运行以下命令  
-`prodigal-gv`  
-`cd-hit`  
-
-使用`prodigal-gv`对GOHVGD进行病毒基因预测,设定每个样本的病毒序列文件为`sampleID_virus.fna`  
+分别标准化vOTU,PC,genus与family结果  
 ```
-prodigal-gv -i sampleID_virus.fna -o sampleID_virus.gff -a sampleID_virus.faa -d sampleID_virus.fna -f gff -p meta
+python standard_map_result.py -m votu -it contigs_belong.txt -iv vOTU_map_cluster.tsv -o vOTU_standard_map_where.txt
+```  
+```
+python standard_map_result.py -m protein -it protein_belong.txt -iv pc_map_cluster.tsv -o pc_standard_map_where.txt
+```  
+```
+python standard_map_result.py -m mcl -it contigs_belong.txt -iv genus_map_cluster.tsv/family_map_cluster.tsv -o genus_standard_map_where.txt/family_standard_map_where.txt
 ```  
 
-移动所有样本的蛋白质faa文件至同一目录下,并进行合并至同一个faa文件,为`GOHVGD_protein.faa`  
+识别vOTU,PC,genus与family的成员来源,以确认独特性与共享性  
 ```
-cat *.faa > GOHVGD_protein.faa
-```
-
-使用`cd-hit`对GOHVGD的蛋白质进行聚类  
-```
-cd-hit -i GOHVGD_protein.faa -o GOHVGD_protein_cluster.faa -c 0.6 -aS 0.8 -g 1 -n 4 -d 0 -T 64 -M 0
-```
-
-由于原始的聚类结果文件`GOHVGD_protein_cluster.faa.clstr`内容结构非传统表格文件,如tsv,csv等,故提供`transformat_pcs_report.py`脚本以供文件格式转换,用户可酌情使用
-```
-python transformat_pcs_report.py -i GOHVGD_protein_cluster.faa.clstr -o GOHVGD_protein_cluster.tsv
+python tiqu_belong.py -i vOTU/pc/genus/family_standard_map_where.txt -o vOTU/pc/genus/family_belong_where.txt
 ```
