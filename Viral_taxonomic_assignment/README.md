@@ -57,3 +57,10 @@ mcl GOHVGD_genus_edges.tsv -te 64 -I 2.0 --abc -o GOHVGD_genus_clusters.txt
 mcl GOHVGD_family_edges.tsv -te 64 -I 1.2 --abc -o GOHVGD_family_clusters.txt
 ```
 在输出中，每一行都指示属于每个集群的成员（包括单例）
+
+病毒分类
+收集ICTV MSL39 v2的病毒在Refseq数据库中的蛋白质数据集`ictv_msl39v2_in_refseq_protein.faa`,进行DIAMOND比对数据库构建  
+```
+diamond makedb --in ictv_msl39v2_in_refseq_protein.faa --db ictv_msl39v2_in_refseq_protein --threads 64
+```
+
