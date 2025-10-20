@@ -2,7 +2,7 @@
 ---
 ## Install dependencies  
 为了识别CRIPSR-SPACER序列  
-`CRT-mod version 2.0rev1`,内置CRISPR-spacer识别工具为[CRT](https://www.room220.com/crt/)，相关配置方法可参照[CRT-mod](https://github.com/caseyh/crt-mod?tab=readme-ov-file)  
+`CRT-mod version 2.0rev1`,内置CRISPR-spacer识别工具为[CRT](https://www.room220.com/crt/),相关配置方法可参照[CRT-mod](https://github.com/caseyh/crt-mod?tab=readme-ov-file)  
 
 为了进行BLASTn,也可通过checkv一起安装    
 `BLAST 2.12.0+`,相关配置方法来源于[blast+](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.12.0/)  
@@ -16,7 +16,7 @@
 你需要可以运行以下命令  
 `blastn`  
 
-移动所有样本的vOTU代表性序列蛋白质`faa`文件`sampleID_vOTU_precontig_protein.faa`至同一目录下,并进行合并至同一个faa文件,为`GOHVGD_vOTU_precontig_protein.faa`  
+根据GOHMGD的MAG序列`bin_ID.fa`识别CRIPSR-SPACER序列  
 ```
 cat *.faa > GOHVGD_vOTU_precontig_protein.faa
 ```
