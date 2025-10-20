@@ -4,34 +4,17 @@
 为了识别CRIPSR-SPACER序列  
 `CRT-mod version 2.0rev1`,内置CRISPR-spacer识别工具为[CRT](https://www.room220.com/crt/)，相关配置方法可参照[CRT-mod](https://github.com/caseyh/crt-mod?tab=readme-ov-file)  
 
-为了进行BLASTn  
-`BLAST 2.12.0+`,相关配置方法来源于[MGV](https://github.com/snayfach/MGV/blob/master/aai_cluster/README.md)  
+为了进行BLASTn,也可通过checkv一起安装    
+`BLAST 2.12.0+`,相关配置方法来源于[blast+](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.12.0/)  
 
-为了过滤aai结果  
-[`filter_aai.py`](https://github.com/snayfach/MGV/blob/master/aai_cluster/filter_aai.py)  
-
-为了识别完整蛋白质  
-`filter_complete_protein.py`  
-
-为了计算病毒蛋白质数目  
-`sum_virus_protein_counts.py`  
-
-为了计算匹配蛋白质数目  
-`caculate_ryseq_match_refseq_protein_counts.py`  
-
-为了计算匹配蛋白质百分比  
-`percent_match_protein_jisuan.py`  
-
-为了提取最终识别结果  
-`filiter_percent_match.py`  
-`filiter_count_protein.py`  
-
-为了MCL聚类  
-`MCL v22-282`,相关配置方法可参照[MCL](https://github.com/micans/mcl)  
+辅助脚本  
+`filter_short_blastn_result.py`  
+`filter_long_blastn_result.py`  
+`merge_short_long_blastn_result.py`  
+`derep_merge_result.py`  
 
 你需要可以运行以下命令  
-`diamond`  
-`mcl`  
+`blastn`  
 
 移动所有样本的vOTU代表性序列蛋白质`faa`文件`sampleID_vOTU_precontig_protein.faa`至同一目录下,并进行合并至同一个faa文件,为`GOHVGD_vOTU_precontig_protein.faa`  
 ```
