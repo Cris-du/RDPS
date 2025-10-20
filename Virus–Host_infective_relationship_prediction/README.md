@@ -1,11 +1,11 @@
-# Viral taxonomic assignment  
+# Virus–Host infective relationship prediction  
 ---
 ## Install dependencies  
-为了蛋白质比对  
-`Diamond V2.1.8`,相关配置方法可参照[diamond](https://github.com/bbuchfink/diamond?tab=readme-ov-file)  
+为了识别CRIPSR-SPACER序列  
+`CRT-mod version 2.0rev1`,内置CRISPR-spacer识别工具为[CRT](https://www.room220.com/crt/)，相关配置方法可参照[CRT-mod](https://github.com/caseyh/crt-mod?tab=readme-ov-file)  
 
-为了根据BLASTp结果计算AAI  
-`amino_acid_identity.py`,相关配置方法来源于[MGV](https://github.com/snayfach/MGV/blob/master/aai_cluster/README.md)  
+为了进行BLASTn  
+`BLAST 2.12.0+`,相关配置方法来源于[MGV](https://github.com/snayfach/MGV/blob/master/aai_cluster/README.md)  
 
 为了过滤aai结果  
 [`filter_aai.py`](https://github.com/snayfach/MGV/blob/master/aai_cluster/filter_aai.py)  
