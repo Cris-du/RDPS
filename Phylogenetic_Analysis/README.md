@@ -5,17 +5,19 @@
 `cdhit v4.8.1`,相关配置方法可参照[cdhit](https://github.com/weizhongli/cdhit)  
 
 为了进行Caudoviricetes标志蛋白识别  
-`diamond v1.7.1`,相关配置方法可参照[genomad](https://github.com/apcamargo/genomad/tree/main)  
+`diamond v2.1.8`,相关配置方法可参照[diamond](https://github.com/bbuchfink/diamond?tab=readme-ov-file)  
 
-为了病毒基因组质量检测  
-`checkv v1.0.1`,相关配置方法可参照[checkv](https://bitbucket.org/berkeleylab/checkv/src/master/#markdown-header-checkv-database)  
+为了进行Caudoviricetes标志蛋白聚类  
+`MMseqs2 v13.4.5`,相关配置方法可参照[mmseqs2](https://github.com/soedinglab/MMseqs2)  
 
-provirus边界识别与确认  
-`check_provirus.py`  
+为了进行多序列比对  
+`MUSCLE v5.2`,相关配置方法可参照[muscle](https://github.com/rcedgar/muscle)  
 
-为了vOTU聚类  
-`anicalc.py`, `aniclust.py`来源于`checkv`,相关配置参照[checkv](https://bitbucket.org/berkeleylab/checkv/src/master/#markdown-header-checkv-database)  
-`merge_ani_tsv.py`为本人自己写的脚本,仅供参考  
+为了进行多序列比对结果过滤  
+`trimAl v1.2`,相关配置方法可参照[trimAl](https://vicfero.github.io/trimal/)  
+
+为了构建系统发育树  
+`FastTree v2.1.11`,相关配置方法可参照[fasttree](https://software.cqls.oregonstate.edu/updates/fasttree-2.1.11/)  
 
 你需要可以运行以下命令  
 `seqkit`  
