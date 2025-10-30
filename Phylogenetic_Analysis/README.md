@@ -47,9 +47,9 @@ diamond makedb --in drep_NCBI_refseq_terl(mcp/portal).faa --db drep_NCBI_refseq_
 diamond blastp --query GOHVGD/GOV2.0_contigs_50_completess_wanzheng_protein.faa --db drep_NCBI_refseq_terl(mcp/portal).faa --out GOHVGD/GOV2.0_contigs_50_completess_wanzheng_protein_terl(mcp/portal)_blastpout.txt --al GOHVGD/GOV2.0_contigs_50_completess_wanzheng_terl(mcp/portal).faa --outfmt 6 --evalue 1e-5 --max-target-seqs 5000000 --threads 2
 ```
 
-对GOHVGD/GOV2.0的高质量Caudoviricetes病毒标志蛋白`Terl\MCP\Portal`序列进行目级别聚类  
+对GOHVGD/GOV2.0的高质量Caudoviricetes病毒标志蛋白`Terl\MCP\Portal`序列以及Refseq的`Terl\MCP\Portal`序列进行目级别聚类  
 ```
-mmseqs easy-cluster GOHVGD/GOV2.0_contigs_50_completess_wanzheng_terl(mcp/portal).faa/refseq_terl(mcp/portal).faa terl(mcp/portal)_out terl(mcp/portal)_tmp --min-seq-id 0.269 -c 0.5 --cov-mode 1 --threads 40
+mmseqs easy-cluster terl(mcp/portal)_merge_GOHVGD_GOV2.0_Refseq.faa terl(mcp/portal)_merge_GOHVGD_GOV2.0_Refseq_out terl(mcp/portal)_merge_GOHVGD_GOV2.0_Refseq_tmp --min-seq-id 0.269 -c 0.5 --cov-mode 1 --threads 40
 ```
 
 基于`./sampleID_step1_genomad_step1_checkv/quality_summary.tsv识别provirus边界    
