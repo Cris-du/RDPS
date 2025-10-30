@@ -14,33 +14,39 @@
 `MUSCLE v5.2`,相关配置方法可参照[muscle](https://github.com/rcedgar/muscle)  
 
 为了进行多序列比对结果过滤  
-`trimAl v1.2`,相关配置方法可参照[trimAl](https://vicfero.github.io/trimal/)  
+`trimAl v1.5`,相关配置方法可参照[trimAl](https://vicfero.github.io/trimal/)  
 
 为了构建系统发育树  
 `FastTree v2.1.11`,相关配置方法可参照[fasttree](https://software.cqls.oregonstate.edu/updates/fasttree-2.1.11/)  
 
+为了筛选GOHVGD中完整性≥50%的contigs的完整蛋白质  
+`filter_GOHVGD_50_compless_protein.py`  
+
 你需要可以运行以下命令  
-`seqkit`  
-`genomad`  
-`checkv`  
-`makeblastdb`  
-`blastn`  
+`cdhit`  
+`mmseqs`  
+`muscle-linux-x86.v5.2`  
+`trimal`  
+`FastTree`  
 
-过滤出长度≥3kb的contigs  
+对NCBI RefSeq (release 225)的经典Caudoviricetes病毒标志蛋白序列`Terl\MCP\Portal`进行去冗余  
 ```
-seqkit seq -g -j 20 -m 3000 sampleID_raw_contigs.fa > sampleID_filter_3kb_contigs.fa
+cd-hit -i NCBI_refseq_terl(mcp/portal).faa -o drep_NCBI_refseq_terl(mcp/portal).faa -c 1.0 -aL 1.0 -aS 1.0 -n 5 -d 0 -T 16
 ```
 
-使用`genomad`进行病毒初次预测  
-准备已经下载好的病毒分类标记数据库`./genomad_db`  
+筛选GOHVGD中完整性≥50%的contigs的完整蛋白质`GOHVGD_wanzheng_protein.faa`  
 ```
-genomad download-database ./genomad_db
+filter_GOHVGD_50_compless_protein.py -i GOHVGD_wanzheng_protein.faa -o GOHVGD_contigs_50_completess_wanzheng_protein.faa
 ```  
 
-对≥ 3kb contigs`sampleID_filter_3kb_contigs.fa`进行病毒初次预测  
+鉴定GOHVGD中的高质量Caudoviricetes病毒标志蛋白`Terl\MCP\Portal`序列数据集  
 ```
-genomad end-to-end --cleanup -t 8 --splits 8 sampleID_filter_3kb_contigs.fa sampleID_step1_genomad ./genomad_db
+diamond makedb --in drep_NCBI_refseq_terl(mcp/portal).faa --db drep_NCBI_refseq_terl(mcp/portal)_db --threads 4
 ```
+```
+diamond blastp --query GOHVGD_contigs_50_completess_wanzheng_protein.faa --db drep_NCBI_refseq_terl(mcp/portal).faa --out GOHVGD_contigs_50_completess_wanzheng_protein_terl(mcp/portal)_blastpout.txt --al GOHVGD_contigs_50_completess_wanzheng_terl(mcp/portal).faa --outfmt 6 --evalue 1e-5 --max-target-seqs 5000000 --threads 2
+```
+
 病毒识别结果文件位于`./sampleID_step1_genomad/sampleID_step1_genomad_summary/sampleID_step1_genomad_virus.fna`  
 
 使用`checkv`进行病毒质量检测  
