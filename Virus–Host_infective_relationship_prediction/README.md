@@ -23,17 +23,21 @@ python crt-mod.py -i ID_bin.fa fasta -o ID_bin_CRISPRs_raw_report.txt --threads=
 
 提取并标准化CRIPSR-SPACER序列结果  
 ```
-python 
+python standard_CRISPRs_raw_report.py -i ID_bin_CRISPRs_raw_report.txt -o ID_standard_CRISPRs.fasta
+```
+构建GOHVGD的blastn比对db
+```
+makeblastdb -in GOHVGD_nuc_seq.fa -dbtype nucl -out GOHVGD_nuc_seq_db
 ```
 
 CRIPSR-SPACER序列与virus contigs进行blastn比对  
 ```
-blastn -query {input_seq_path} -db {blast_db_path} -task blastn-short -outfmt '6 std qlen slen' -max_target_seqs 50000000 -out {output_blast_path} -num_threads 1 -dust no
+blastn -query ID_standard_CRISPRs.fasta -db GOHVGD_nuc_seq_db -task blastn-short -outfmt '6 std qlen slen' -max_target_seqs 50000000 -out ID_standard_CRISPRs_to_GOHVGD_blastn_out.txt -num_threads 1 -dust no
 ```
 
 GOHMGD的MAG序列与virus contigs进行blastn比对  
 ```
-blastn -query ID_bin.fa -db all_ry_raw_viralseq_noerror_db -outfmt '6 std qlen slen' -max_target_seqs 50000000 -out ID_bin_long_blast.tsv -num_threads 1 -dust no
+blastn -query ID_bin.fa -db GOHVGD_nuc_seq_db -outfmt '6 std qlen slen' -max_target_seqs 50000000 -out ID_bin_long_blast.tsv -num_threads 1 -dust no
 ```
 
 过滤short blastn与long blastn结果
@@ -43,3 +47,4 @@ python filter_short_blastn_result.py -i crt_short_blast.tsv -o filter_crt_short_
 ```
 python filter_long_blastn_result.py -i ID_bin_long_blast.tsv -o filter_ID_bin_long_blast.tsv
 ```
+合并short blastn与long blastn，去重后得到GOHVGD与GOHMGD的病毒-宿主分配结果
