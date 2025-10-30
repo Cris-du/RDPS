@@ -19,8 +19,8 @@
 为了构建系统发育树  
 `FastTree v2.1.11`,相关配置方法可参照[fasttree](https://software.cqls.oregonstate.edu/updates/fasttree-2.1.11/)  
 
-为了筛选GOHVGD中完整性≥50%的contigs的完整蛋白质  
-`filter_GOHVGD_50_compless_protein.py`  
+为了筛选GOHVGD/GOV2.0中完整性≥50%的contigs的完整蛋白质  
+`filter_50_compless_protein.py`  
 
 你需要可以运行以下命令  
 `cdhit`  
@@ -34,24 +34,22 @@
 cd-hit -i NCBI_refseq_terl(mcp/portal).faa -o drep_NCBI_refseq_terl(mcp/portal).faa -c 1.0 -aL 1.0 -aS 1.0 -n 5 -d 0 -T 16
 ```
 
-筛选GOHVGD中完整性≥50%的contigs的完整蛋白质`GOHVGD_wanzheng_protein.faa`  
+筛选GOHVGD/GOV2.0中完整性≥50%的contigs的完整蛋白质`GOHVGD_wanzheng_protein.faa`  
 ```
-filter_GOHVGD_50_compless_protein.py -i GOHVGD_wanzheng_protein.faa -o GOHVGD_contigs_50_completess_wanzheng_protein.faa
+filter_50_compless_protein.py -i GOHVGD/GOV2.0_wanzheng_protein.faa -o GOHVGD/GOV2.0_contigs_50_completess_wanzheng_protein.faa
 ```  
 
-鉴定GOHVGD中的高质量Caudoviricetes病毒标志蛋白`Terl\MCP\Portal`序列数据集  
+鉴定GOHVGD/GOV2.0中的高质量Caudoviricetes病毒标志蛋白`Terl\MCP\Portal`序列数据集  
 ```
 diamond makedb --in drep_NCBI_refseq_terl(mcp/portal).faa --db drep_NCBI_refseq_terl(mcp/portal)_db --threads 4
 ```
 ```
-diamond blastp --query GOHVGD_contigs_50_completess_wanzheng_protein.faa --db drep_NCBI_refseq_terl(mcp/portal).faa --out GOHVGD_contigs_50_completess_wanzheng_protein_terl(mcp/portal)_blastpout.txt --al GOHVGD_contigs_50_completess_wanzheng_terl(mcp/portal).faa --outfmt 6 --evalue 1e-5 --max-target-seqs 5000000 --threads 2
+diamond blastp --query GOHVGD/GOV2.0_contigs_50_completess_wanzheng_protein.faa --db drep_NCBI_refseq_terl(mcp/portal).faa --out GOHVGD/GOV2.0_contigs_50_completess_wanzheng_protein_terl(mcp/portal)_blastpout.txt --al GOHVGD/GOV2.0_contigs_50_completess_wanzheng_terl(mcp/portal).faa --outfmt 6 --evalue 1e-5 --max-target-seqs 5000000 --threads 2
 ```
 
-病毒识别结果文件位于`./sampleID_step1_genomad/sampleID_step1_genomad_summary/sampleID_step1_genomad_virus.fna`  
-
-使用`checkv`进行病毒质量检测  
+对GOHVGD/GOV2.0的高质量Caudoviricetes病毒标志蛋白`Terl\MCP\Portal`序列进行目级别聚类  
 ```
-checkv end_to_end sampleID_step1_genomad_virus.fna sampleID_step1_genomad_step1_checkv -t 4
+mmseqs easy-cluster GOHVGD/GOV2.0_contigs_50_completess_wanzheng_terl(mcp/portal).faa/refseq_terl(mcp/portal).faa terl(mcp/portal)_out terl(mcp/portal)_tmp --min-seq-id 0.269 -c 0.5 --cov-mode 1 --threads 40
 ```
 
 基于`./sampleID_step1_genomad_step1_checkv/quality_summary.tsv识别provirus边界    
