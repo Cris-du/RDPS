@@ -7,33 +7,24 @@
 `samtools v1.9`,相关配置方法可参照[samtools](https://github.com/samtools/samtools)  
 `bedtools v2.31.1`,相关配置方法可参照[bedtools](https://plink.readthedocs.io/en/latest/bedtools_int/)  
 
+为了进行原核微生物基因组丰度计算  
+`CoverM v0.7.0`,相关配置方法可参照[coverm](https://github.com/wwood/CoverM)  
 
+为了进行微观多样性分析  
+`metapop v13.4.5`,相关配置方法可参照[metapop](https://github.com/metaGmetapop/metapop)  
 
-
-为了进行Caudoviricetes标志蛋白识别  
-`diamond v2.1.8`,相关配置方法可参照[diamond](https://github.com/bbuchfink/diamond?tab=readme-ov-file)  
-
-为了进行Caudoviricetes标志蛋白聚类  
-`MMseqs2 v13.4.5`,相关配置方法可参照[mmseqs2](https://github.com/soedinglab/MMseqs2)  
-
-为了进行多序列比对  
-`MUSCLE v5.2`,相关配置方法可参照[muscle](https://github.com/rcedgar/muscle)  
-
-为了进行多序列比对结果过滤  
-`trimAl v1.5`,相关配置方法可参照[trimAl](https://vicfero.github.io/trimal/)  
-
-为了构建系统发育树  
-`FastTree v2.1.11`,相关配置方法可参照[fasttree](https://software.cqls.oregonstate.edu/updates/fasttree-2.1.11/)  
-
-为了筛选GOHVGD/GOV2.0中完整性≥50%的contigs的完整蛋白质  
-`filter_50_compless_protein.py`  
+为了筛选覆盖率的病毒丰度结果  
+`filter_cover_length.py`  
 
 你需要可以运行以下命令  
-`cdhit`  
-`mmseqs`  
-`muscle-linux-x86.v5.2`  
-`trimal`  
-`FastTree`  
+`bowtie2-build`  
+`bowtie2`  
+`samtools`  
+`bamm`  
+`bedtools`  
+`coverm`  
+`metapop`  
+
 
 对NCBI RefSeq (release 225)的经典Caudoviricetes病毒标志蛋白序列`Terl\MCP\Portal`进行去冗余  
 ```
