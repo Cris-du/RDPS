@@ -25,39 +25,35 @@
 `coverm`  
 `metapop`  
 
+对`GOHVGD`进行索引构建  
+```
+bowtie2-build GOHVGD_contigs_seq.fasta GOHVGD_contigs_index
+```
 
-对NCBI RefSeq (release 225)的经典Caudoviricetes病毒标志蛋白序列`Terl\MCP\Portal`进行去冗余  
+对测序文件进行contig序列映射  
+双端  
 ```
-cd-hit -i NCBI_refseq_terl(mcp/portal).faa -o drep_NCBI_refseq_terl(mcp/portal).faa -c 1.0 -aL 1.0 -aS 1.0 -n 5 -d 0 -T 16
-```
-
-筛选GOHVGD/GOV2.0中完整性≥50%的contigs的完整蛋白质`GOHVGD_wanzheng_protein.faa`  
-```
-filter_50_compless_protein.py -i GOHVGD/GOV2.0_wanzheng_protein.faa -o GOHVGD/GOV2.0_contigs_50_completess_wanzheng_protein.faa
+bowtie2 -p 64 -x GOHVGD_contigs_index -1 SampleID_qced_forward.fq.gz -2 SampleID_qced_reverse.fq.gz -S GOHVGD_map_SampleID.sam
 ```  
+单端  
+```
+bowtie2 -p 64 -x GOHVGD_contigs_index -U SampleID_qced_singled.fq.gz -S GOHVGD_map_SampleID.sam
+```
+将`sam`文件转换成`bam`文件  
+```
+samtools view -@ 4 -bS GOHVGD_map_SampleID.sam > GOHVGD_map_SampleID.bam
+```
+对`bam`文件进行排序  
+```
+samtools sort -@ 4 -m 4G GOHVGD_map_SampleID.bam -o GOHVGD_map_sort_SampleID.bam
+```
 
-鉴定GOHVGD/GOV2.0中的高质量Caudoviricetes病毒标志蛋白`Terl\MCP\Portal`序列数据集  
+对`bam`文件的reads进行质量控制  
 ```
-diamond makedb --in drep_NCBI_refseq_terl(mcp/portal).faa --db drep_NCBI_refseq_terl(mcp/portal)_db --threads 4
+bamm filter -b GOHVGD_map_sort_SampleID.bam --percentage_id 0.95 --percentage_aln 0.9 -o GOHVGD_map_sort_filtered_SampleID.bam
 ```
+`bam`二次排序并进行索引构建  
 ```
-diamond blastp --query GOHVGD/GOV2.0_contigs_50_completess_wanzheng_protein.faa --db drep_NCBI_refseq_terl(mcp/portal).faa --out GOHVGD/GOV2.0_contigs_50_completess_wanzheng_protein_terl(mcp/portal)_blastpout.txt --al GOHVGD/GOV2.0_contigs_50_completess_wanzheng_terl(mcp/portal).faa --outfmt 6 --evalue 1e-5 --max-target-seqs 5000000 --threads 2
-```
-
-对GOHVGD/GOV2.0以及Refseq的Caudoviricetes病毒标志蛋白`Terl\MCP\Portal`序列进行目级别聚类  
-```
-mmseqs easy-cluster terl(mcp/portal)_merge_GOHVGD_GOV2.0_Refseq.faa terl(mcp/portal)_merge_GOHVGD_GOV2.0_Refseq_cluster_out terl(mcp/portal)_merge_GOHVGD_GOV2.0_Refseq_cluster_tmp --min-seq-id 0.269 -c 0.5 --cov-mode 1 --threads 40
+samtools sort -@ 4 -m 4G -o GOHVGD_map_double_sort_filtered_SampleID.bam GOHVGD_map_sort_filtered_SampleID.bam && samtools index GOHVGD_map_double_sort_filtered_SampleID.bam
 ```
 
-对GOHVGD/GOV2.0/Refseq的`Terl\MCP\Portal`目级别代表序列进行系统发育树构建  
-```
-muscle-linux-x86.v5.2 -super5 terl(mcp/portal)_merge_GOHVGD_GOV2.0_Refseq_cluster.faa -output terl(mcp/portal)_merge_GOHVGD_GOV2.0_Refseq_cluster.afa -threads 10
-```
-```
-trimal -in terl(mcp/portal)_merge_GOHVGD_GOV2.0_Refseq_cluster.afa -out terl(mcp/portal)_merge_GOHVGD_GOV2.0_Refseq_cluster_trimal.fasta -htmlout terl(mcp/portal)_merge_GOHVGD_GOV2.0_Refseq_cluster_trimal.html -gappyout
-```
-```
-FastTree -lg terl(mcp/portal)_merge_GOHVGD_GOV2.0_Refseq_cluster_trimal.fasta > terl(mcp/portal)_merge_GOHVGD_GOV2.0_Refseq_cluster_trimal_super5_lg_model.nwk
-```
-适用iTOL进行系统发育树可视化  
-还缺少MAG的系统发育分析
