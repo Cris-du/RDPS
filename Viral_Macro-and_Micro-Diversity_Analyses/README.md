@@ -1,8 +1,14 @@
 # Viral Macro-and Micro-Diversity Analyses
 ---
 ## Install dependencies  
-为了进行蛋白质去冗余  
-`cdhit v4.8.1`,相关配置方法可参照[cdhit](https://github.com/weizhongli/cdhit)  
+为了进行病毒丰度计算  
+`bowtie2 v2.3.5.1`,相关配置方法可参照[bowtie2](https://github.com/BenLangmead/bowtie2)  
+`bamm v1.7.3`,相关配置方法可参照[bamm](https://github.com/ecogenomics/BamM)  
+`samtools v1.9`,相关配置方法可参照[samtools](https://github.com/samtools/samtools)  
+`bedtools v2.31.1`,相关配置方法可参照[bedtools](https://plink.readthedocs.io/en/latest/bedtools_int/)  
+
+
+
 
 为了进行Caudoviricetes标志蛋白识别  
 `diamond v2.1.8`,相关配置方法可参照[diamond](https://github.com/bbuchfink/diamond?tab=readme-ov-file)  
