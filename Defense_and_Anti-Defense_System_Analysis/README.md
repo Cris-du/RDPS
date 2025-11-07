@@ -12,7 +12,7 @@
 ```
 defense-finder run MAG_binx.fa -o MAG_binx_defensefinder --db-type unordered_replicon -w 2
 ```
-病毒的抗防御系统预测（实际做的是ordered，这里需要重做）  
+病毒的抗防御系统预测  
 ```
 defense-finder run GOHVGD_virus_seq.fa -o GOHVGD_virus_antidefensefinder_dir --db-type unordered_replicon --preserve-raw -A -w 1
 ```
