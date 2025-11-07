@@ -1,4 +1,5 @@
-# Viral Macro-and Micro-Diversity Analyses
+# Viral and Microbial Abundance caculation
+
 ---
 ## Install dependencies  
 为了进行病毒丰度计算  
@@ -10,11 +11,14 @@
 为了进行原核微生物基因组丰度计算  
 `CoverM v0.7.0`,相关配置方法可参照[coverm](https://github.com/wwood/CoverM)  
 
-为了进行微观多样性分析  
-`metapop v13.4.5`,相关配置方法可参照[metapop](https://github.com/metaGmetapop/metapop)  
-
-为了筛选覆盖率的病毒丰度结果  
-`filter_cover_length.py`  
+筛选覆盖长度比率＞0.7的contig名称  
+`filter_coverage_result_seqname.py`  
+筛选目标contig覆盖深度结果  
+`filter_contig_depth.py`  
+contig`bed`文件生成  
+`bed_contigs.py`  
+contig length.txt文件生成  
+`contig_length.py`  
 
 你需要可以运行以下命令  
 `bowtie2-build`  
@@ -23,14 +27,13 @@
 `bamm`  
 `bedtools`  
 `coverm`  
-`metapop`  
 
-对`GOHVGD`进行索引构建  
+对`GOHVGD`或`GOHMGD`进行索引构建  
 ```
 bowtie2-build GOHVGD_contigs_seq.fasta GOHVGD_contigs_index
 ```
 
-对测序文件进行contig序列映射  
+对测序文件进行viral contig/mag contig序列映射  
 双端  
 ```
 bowtie2 -p 64 -x GOHVGD_contigs_index -1 SampleID_qced_forward.fq.gz -2 SampleID_qced_reverse.fq.gz -S GOHVGD_map_SampleID.sam
@@ -56,4 +59,26 @@ bamm filter -b GOHVGD_map_sort_SampleID.bam --percentage_id 0.95 --percentage_al
 ```
 samtools sort -@ 4 -m 4G -o GOHVGD_map_double_sort_filtered_SampleID.bam GOHVGD_map_sort_filtered_SampleID.bam && samtools index GOHVGD_map_double_sort_filtered_SampleID.bam
 ```
-
+病毒丰度计算  
+生成`bed`文件与`contig_length.txt`  
+```
+bed_contigs.py GOHVGD_contigs_seq.fasta GOHVGD_contigs_seq.bed
+contig_length.py GOHVGD_contigs_seq.fasta GOHVGD_contigs_length.txt
+```
+contig覆盖长度比率计算  
+```
+bedtools coverage -a GOHVGD_contigs_seq.bed -sorted -g GOHVGD_contigs_length.txt -b GOHVGD_map_double_sort_filtered_SampleID.bam > GOHVGD_SampleID_coverage_length_rate.txt
+```
+contig平均覆盖深度计算  
+```
+bamm parse -b GOHVGD_map_double_sort_filtered_SampleID.bam -m tpmean -t 2 -c GOHVGD_SampleID_mean_depth.txt
+```
+筛选覆盖长度比率＞0.7的contig名称  
+```
+filter_coverage_result_seqname.py -i GOHVGD_SampleID_coverage_length_rate.txt -o GOHVGD_SampleID_coverage_length_rate_0.7_seqname.txt -c 0.7
+```
+筛选出覆盖长度比率＞0.7的contig平均覆盖深度结果  
+```
+filter_contig_depth.py -ic GOHVGD_SampleID_coverage_length_rate_0.7_seqname.txt -id GOHVGD_SampleID_mean_depth.txt -o GOHVGD_SampleID_mean_depth_clr_0.7.txt
+```
+微生物丰度计算  
