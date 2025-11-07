@@ -19,6 +19,10 @@ contig`bed`文件生成
 `bed_contigs.py`  
 contig length.txt文件生成  
 `contig_length.py`  
+计算所有样本reads数目  
+`reads_caculate_fastp.py`  
+标准化contig丰度  
+`normalized_depth.py`
 
 你需要可以运行以下命令  
 `bowtie2-build`  
@@ -80,5 +84,13 @@ filter_coverage_result_seqname.py -i GOHVGD_SampleID_coverage_length_rate.txt -o
 筛选出覆盖长度比率＞0.7的contig平均覆盖深度结果  
 ```
 filter_contig_depth.py -ic GOHVGD_SampleID_coverage_length_rate_0.7_seqname.txt -id GOHVGD_SampleID_mean_depth.txt -o GOHVGD_SampleID_mean_depth_clr_0.7.txt
+```
+计算所有样本reads数目  
+```
+reads_caculate_fastp.py -if SampleID_fastp.html -o SampleID_reads_count.txt
+```
+标准化丰度  
+```
+normalized_depth.py -it SampleID_reads_count.txt -id GOHVGD_SampleID_mean_depth_clr_0.7.txt -o normalized_GOHVGD_SampleID_mean_depth_clr_0.7.txt 
 ```
 微生物丰度计算  
