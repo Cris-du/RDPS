@@ -125,7 +125,7 @@ gtdbtk download-data --data-dir ./gtdbtk_db --batch 4
 ```
 
 存放GOHMGD的`*bin.fa`于同一目录内，如`./GOHMGD/*bin.fa`  
-gtdbtk分类命令
+gtdbtk分类命令  
 ```
 gtdbtk classify_wf --genome_dir ./GOHMGD --out_dir ./GOHMGD_gtdbtk_skip --data_dir ./gtdbtk_db --skip_ani_screen -x fa --cpus 10 --pplacer_cpus 10
 ```
