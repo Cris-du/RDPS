@@ -65,7 +65,7 @@ Identification and diversity profiling of:
 ### 10. **[Auxiliary Metabolic Gene (AMG) Analysis](https://github.com/Cris-du/RDPS/blob/main/Auxiliary_Metabolic_Gene_(AMG)_Analysis/README.md)**
 Detection and classification of viral **AMGs**; diversity and environmental distribution analyses.
 
-### 11. **[Functional Annotation and Genome Collinearity](https://github.com/Cris-du/RDPS/blob/main/Functional_Annotation_and_Genome_Collinearity/README.md)**
+### 11. **[Genome Collinearity analysis](https://github.com/Cris-du/RDPS/blob/main/Genome_Collinearity_analysis/README.md)**
 Functional annotation of viral proteins and synteny comparison among ubiquitous viral genomes.
 
 ### 12. **[Physiological Prediction of GOHMGD Members](https://github.com/Cris-du/RDPS/blob/main/Physiological_Prediction_of_GOHMGD_Members/README.md)**
