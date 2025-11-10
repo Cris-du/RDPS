@@ -17,11 +17,11 @@
 
 由于DRAM-v只能接受virsorter2的输出结果，故需要对原始GOHVGD数据集进行virsorter2病毒重新预测  
 ```
-virsorter2.sif run --seqname-suffix-off --viral-gene-enrich-off --provirus-off --prep-for-dramv  --rm-tmpdir --min-score 0 -i GOHVGD.fna -w GOHVGD_virsorter2_out -j 4 --min-length 0
+virsorter2.sif run --seqname-suffix-off --viral-gene-enrich-off --provirus-off --prep-for-dramv  --rm-tmpdir --min-score 0 -i GOHVGD_pre_contig.fna -w GOHVGD_pre_contig_virsorter2_out -j 4 --min-length 0
 ```
 DRAM-v进行病毒蛋白质注释  
 ```
-DRAM-v.py annotate -i ./GOHVGD_virsoter2_out/for-dramv/final-viral-combined-for-dramv.fa -v ./GOHVGD_virsoter2_out/for-dramv/viral-affi-contigs-for-dramv.tab -o ./GOHVGD_virsoter2_dramv_annot --skip_trnascan --threads 40 --min_contig_size 0
+DRAM-v.py annotate -i ./GOHVGD_pre_contig_virsoter2_out/for-dramv/final-viral-combined-for-dramv.fa -v ./GOHVGD_pre_contig_virsoter2_out/for-dramv/viral-affi-contigs-for-dramv.tab -o ./GOHVGD_pre_contig_virsoter2_dramv_annot --skip_trnascan --threads 40 --min_contig_size 0
 ```
 DRAM-v进行AMG提取  
 ```
