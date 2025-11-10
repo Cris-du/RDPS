@@ -2,7 +2,7 @@
 ---
 ## Install dependencies  
 为了蛋白质预测  
-`Prodigal V2.11.0-gv`,相关配置方法可参照[prodigal-gv](https://github.com/apcamargo/prodigal-gv)  
+`prodigal-gv v2.11.0`,相关配置方法可参照[prodigal-gv](https://github.com/apcamargo/prodigal-gv)  
 
 为了蛋白质聚类成蛋白质簇  
 `CD-HIT v4.8.1`,相关配置方法可参照[cdhit](https://github.com/weizhongli/cdhit)  
