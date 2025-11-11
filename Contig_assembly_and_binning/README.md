@@ -1,24 +1,24 @@
 # contig拼接与binning
 ---
 ## Install dependencies  
-为了reads质控  
+### 为了reads质控  
 `fastp 0.23.3`,相关配置方法可参照[fastp](https://github.com/OpenGene/fastp)  
 
-为了拼接contigs与过滤≥ 1kb contigs  
+### 为了拼接contigs与过滤≥ 1kb contigs  
 `MEGAHIT v1.2.9`,相关配置方法可参照[megahit](https://github.com/voutcn/megahit)  
 `seqkit v2.10.1`,相关配置方法可参照[seqkit](https://github.com/shenwei356/seqkit)  
 
-为了binning  
+### 为了binning  
 `samtools 1.19.2`,相关配置方法可参照[samtools](https://github.com/samtools/samtools)  
 `BBMap 38.18`,相关配置方法可参照[bbmap](https://github.com/BioInfoTools/BBMap?tab=readme-ov-file)  
 `MetaBAT2 2.15`,相关配置方法可参照[metabat2](https://bitbucket.org/berkeleylab/metabat/src/master/)  
 `MaxBin 2.2.7`,相关配置方法可参照[maxbin](https://sourceforge.net/projects/maxbin/)  
 `metaWRAP v=1.3.2`,相关配置方法可参照[metawrap](https://github.com/bxlab/metaWRAP)  
 
-为了微生物基因组分类  
+### 为了微生物基因组分类  
 `GTDB-Tk v2.4.0`,相关配置方法可参照[GTDBTk](https://github.com/Ecogenomics/GTDBTk)  
 
-你需要可以运行以下命令  
+### 你需要可以运行以下命令  
 `fastp`  
 `megahit`  
 `seqkit`  
@@ -30,7 +30,9 @@
 `metaWRAP`  
 `gtdbtk`  
 
-使用`fastp`进行reads质控（包括修剪, 去除接头）  
+## 执行操作  
+### contigs拼接  
+使用`fastp`进行reads质控（包括修剪, 去除接头）
 准备已经下载好的宏基因组测序reads文件  
 单端测序：`run_id_single_reads.fq.gz`  
 双端测序：`run_id_forward_reads.fq.gz`, `run_id_reverse_reads.fq.gz`  
@@ -63,7 +65,7 @@ megahit --continue --min-count 2 --k-min 21 --k-max 255 --k-step 4 -t 20 -r samp
 ```
 megahit --continue --min-count 2 --k-min 21 --k-max 255 --k-step 4 -t 20 -1 sample_id_merge_forward_fastped_reads.fq.gz -2 sample_id_merge_reverse_fastped_reads.fq.gz -o ./sample_id_megahit
 ```
-
+### binning分箱  
 过滤出长度≥1kb的contigs  
 ```
 seqkit seq -g -j 20 -m 1000 ./sample_id_megahit/final.contigs.fa > sample_id_filter_1kb_contigs.fa
@@ -91,6 +93,7 @@ samtools sort -@ 4 -o sample_id_sorted_bbmap.bam sample_id_bbmap.bam && samtools
 ```
 jgi_summarize_bam_contig_depths --outputDepth sample_id_jgi_depth.txt sample_id_sorted_bbmap.bam
 ```
+
 `maxbin`与`metabat2`分箱  
 maxbin  
 ```
@@ -113,14 +116,13 @@ metaWRAP bin_refinement -t 40 -c 50 -x 5 -o ./sample_id_metabat2(maxbin)_bins_me
 
 人工筛选完整度≥50%且污染度≤5%的bin,作为GOHMGD  
 
-微生物MAG分类   
+### 微生物MAG分类   
 安装`gtdb-tk`数据库  
 ```
 gtdbtk download-data --data-dir ./gtdbtk_db --batch 4
 ```
 
-将GOHMGD的`*bin.fa`存放于同一目录内,如`./GOHMGD/*bin.fa`  
-gtdbtk分类  
+将GOHMGD的`*bin.fa`存放于同一目录内,如`./GOHMGD/*bin.fa`以进行gtdbtk分类  
 ```
 gtdbtk classify_wf --genome_dir ./GOHMGD --out_dir ./GOHMGD_gtdbtk_skip --data_dir ./gtdbtk_db --skip_ani_screen -x fa --cpus 10 --pplacer_cpus 10
 ```
