@@ -83,5 +83,5 @@ step2
 | Bacteria | p     | Acidobacteriota  | 35         |
 
 step3  
-调用`0tree.py`生成主要`GOHMGD`原核微生物宿主系统发育树文件`_newick.tree`,`_nexus.tree`,`_phyloxml.tree`以及`iTOL`标签文件`ITOL_{domain}_labels_r{release}_leaf_{genome_num}.txt`    
+调用`0tree.py`生成主要`GOHMGD`原核微生物宿主系统发育树文件`_newick.tree`,`_nexus.tree`,`_phyloxml.tree`以及`iTOL`标签文件`ITOL_{domain}_labels_r{release}_leaf_{genome_num}.txt`  
 使用iTOL进行系统发育树可视化  
