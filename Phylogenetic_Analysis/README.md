@@ -22,6 +22,9 @@
 为了筛选GOHVGD/GOV2.0中完整性≥50%的contigs的完整蛋白质  
 `filter_50_compless_protein.py`  
 
+为了进行`GOHMGD`的原核微生物宿主系统发育分析  
+`0tree.py`  
+
 你需要可以运行以下命令  
 `cdhit`  
 `mmseqs`  
