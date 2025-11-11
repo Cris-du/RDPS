@@ -32,16 +32,16 @@
 
 使用`fastp`进行reads质控（包括修剪, 去除接头）  
 准备已经下载好的宏基因组测序reads文件  
-单端测序：`RUNID_single_reads.fq.gz`  
-双端测序：`RUNID_forward_reads.fq.gz`, `RUNID_reverse_reads.fq.gz`  
+单端测序：`sample_id_single_reads.fq.gz`  
+双端测序：`sample_id_forward_reads.fq.gz`, `sample_id_reverse_reads.fq.gz`  
 
 单端命令  
 ```
-fastp -i RUNID_single_reads.fq.gz -o RUNID_single_fastped_reads.fq.gz -h RUNID_single_fastped_reads_report.html -Q --thread=20 --length_required=15 --n_base_limit=5 --compression=6
+fastp -i sample_id_single_reads.fq.gz -o sample_id_single_fastped_reads.fq.gz -h sample_id_single_fastped_reads_report.html -Q --thread=20 --length_required=15 --n_base_limit=5 --compression=6
 ```
 双端命令  
 ```
-fastp -i RUNID_forward_reads.fq.gz -I RUNID_reverse_reads.fq.gz -o RUNID_forward_fastped_reads.fq.gz -O RUNID_reverse_fastped_reads.fq.gz -h RUNID_paired_fastped_reads_report.html -Q --thread=20 --length_required=15 --n_base_limit=5 --compression=6
+fastp -i sample_id_forward_reads.fq.gz -I sample_id_reverse_reads.fq.gz -o sample_id_forward_fastped_reads.fq.gz -O sample_id_reverse_fastped_reads.fq.gz -h sample_id_paired_fastped_reads_report.html -Q --thread=20 --length_required=15 --n_base_limit=5 --compression=6
 ```
 
 合并相同样本的不同测序reads文件(`fastp`质控后)  
