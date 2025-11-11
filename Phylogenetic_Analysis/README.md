@@ -22,7 +22,7 @@
 为了筛选GOHVGD/GOV2.0中完整性≥50%的contigs的完整蛋白质  
 `filter_50_compless_protein.py`  
 
-为了进行`GOHMGD`的原核微生物宿主系统发育分析  
+为了进行主要`GOHMGD`的原核微生物宿主系统发育分析  
 `0tree.py`  
 
 你需要可以运行以下命令  
@@ -65,5 +65,23 @@ trimal -in terl(mcp/portal)_merge_GOHVGD_GOV2.0_Refseq_cluster.afa -out terl(mcp
 ```
 FastTree -lg terl(mcp/portal)_merge_GOHVGD_GOV2.0_Refseq_cluster_trimal.fasta > terl(mcp/portal)_merge_GOHVGD_GOV2.0_Refseq_cluster_trimal_super5_lg_model.nwk
 ```
-适用iTOL进行系统发育树可视化  
-还缺少MAG的系统发育分析
+进行`GOHMGD`的原核微生物宿主系统发育分析  
+step1  
+下载gtdb release 220版本的古菌与细菌系统发育树`ar53_r220.tree`,`bac120_r220.tree`以及分类文件`ar53_taxonomy_r220.tsv`,`bac120_taxonomy_r220.tsv`  
+step2  
+准备`GOHMGD`已鉴定有潜在感染病毒的原核微生物宿主的分类文件  
+示例:  
+| domain   | layer | taxa            | genome_num |
+|----------|-------|-----------------|------------|
+| Bacteria | p     | Pseudomonadota   | 1313       |
+| Bacteria | p     | Campylobacterota | 319        |
+| Bacteria | p     | Bacteroidota     | 395        |
+| Bacteria | p     | Actinomycetota   | 101        |
+| Bacteria | p     | Planctomycetota  | 195        |
+| Bacteria | p     | Myxococcota      | 46         |
+| Bacteria | p     | Verrucomicrobiota| 32         |
+| Bacteria | p     | Acidobacteriota  | 35         |
+
+step3  
+调用`0tree.py`生成主要`GOHMGD`原核微生物宿主系统发育树文件`_newick.tree`,`_nexus.tree`,`_phyloxml.tree`以及`iTOL`标签文件`ITOL_{domain}_labels_r{release}_leaf_{genome_num}.txt`    
+使用iTOL进行系统发育树可视化  
