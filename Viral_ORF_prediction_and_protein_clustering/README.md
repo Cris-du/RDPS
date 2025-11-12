@@ -22,18 +22,18 @@
 prodigal-gv -i sample_id_virus.fna -o sample_id_virus.gff -a sample_id_virus.faa -d sample_id_virus.fna -f gff -p meta
 ```  
 
-合并所有病毒预测蛋白质文件至同一个faa文件,为`GOHVGD_protein.faa`  
+合并所有病毒预测蛋白质文件至同一个faa文件,为`GOHVGD_all_viral_contigs_protein.faa`  
 ```
-cat *.faa > GOHVGD_protein.faa
+cat *.faa > GOHVGD_all_viral_contigs_protein.faa
 ```
 
 ### 蛋白质聚类为protein cluster
 使用`cd-hit`对GOHVGD的蛋白质进行聚类  
 ```
-cd-hit -i GOHVGD_protein.faa -o GOHVGD_protein_cluster.faa -c 0.6 -aS 0.8 -g 1 -n 4 -d 0 -T 64 -M 0
+cd-hit -i GOHVGD_all_viral_contigs_protein.faa -o GOHVGD_all_viral_contigs_protein_cluster.faa -c 0.6 -aS 0.8 -g 1 -n 4 -d 0 -T 64 -M 0
 ```
 
-由于原始的聚类结果文件`GOHVGD_protein_cluster.faa.clstr`内容结构非传统表格文件(tsv,csv等),故提供`transformat_pcs_report.py`脚本以供文件格式转换,用户可酌情使用  
+由于原始的聚类结果文件`GOHVGD_all_viral_contigs_protein_cluster.faa.clstr`内容结构非传统表格文件(tsv,csv等),故提供`transformat_pcs_report.py`脚本以供文件格式转换,用户可酌情使用  
 ```
-python ./transformat_pcs_report.py -i GOHVGD_protein_cluster.faa.clstr -o GOHVGD_protein_cluster.tsv
+python ./transformat_pcs_report.py -i GOHVGD_all_viral_contigs_protein_cluster.faa.clstr -o GOHVGD_all_viral_contigs_protein_cluster.tsv
 ```
