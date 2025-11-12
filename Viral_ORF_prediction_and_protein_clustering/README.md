@@ -17,18 +17,12 @@
 
 ## 执行操作  
 ### 病毒ORF与蛋白质预测  
-每个样本的病毒序列文件为`sample_id_virus.fna`  
 ```
-prodigal-gv -i sample_id_virus.fna -o sample_id_virus.gff -a sample_id_virus.faa -d sample_id_virus.fna -f gff -p meta
+prodigal-gv -i GOHVGD_all_viral_contigs.fna -o GOHVGD_all_viral_contigs.gff -a GOHVGD_all_viral_contigs_protein.faa -d GOHVGD_all_viral_contigs_orf.fna -f gff -p meta
 ```  
 
-合并所有病毒预测蛋白质文件至同一个faa文件,为`GOHVGD_all_viral_contigs_protein.faa`  
-```
-cat *.faa > GOHVGD_all_viral_contigs_protein.faa
-```
-
 ### 蛋白质聚类为protein cluster
-使用`cd-hit`对GOHVGD的蛋白质进行聚类  
+使用`cd-hit`对GOHVGD所有viral contigs的蛋白质进行聚类  
 ```
 cd-hit -i GOHVGD_all_viral_contigs_protein.faa -o GOHVGD_all_viral_contigs_protein_cluster.faa -c 0.6 -aS 0.8 -g 1 -n 4 -d 0 -T 64 -M 0
 ```
