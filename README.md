@@ -33,7 +33,7 @@ Microbial prediction, quality control and microbial taxonomic classification wer
 Viral sequences prediction from contig ≥3 kb, and quality-checked following the pipeline described in the manuscript.  
 Representative viral genomes were clustered at the species level (**vOTUs**) based on **Average Nucleotide Identity (ANI)**.
 
-### 3. **[Viral gene prediction and protein clustering](https://github.com/Cris-du/RDPS/blob/main/Viral_gene_prediction_and_protein_clustering/README.md)**
+### 3. **[Viral ORF prediction and protein clustering](https://github.com/Cris-du/RDPS/blob/main/Viral_ORF_prediction_and_protein_clustering/README.md)**
 Viral coding sequences were predicted and clustered into protein families for downstream comparative and functional analyses.
 
 ### 4. **[Viral taxonomic assignment](https://github.com/Cris-du/RDPS/blob/main/Viral_taxonomic_assignment/README.md)**
