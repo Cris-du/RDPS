@@ -64,10 +64,10 @@ checkv end_to_end ./sample_id_provirus_part2_step2_genomad/sample_id_provirus_pa
 ### vOTU聚类  
 对`GOHVGD`进行vOTU聚类,参照[checkv](https://bitbucket.org/berkeleylab/checkv/src/master/#markdown-header-checkv-database)的Supporting code提供的方法流程,由Nayfach, S.等人提供：Nayfach, S., Camargo, A.P., Schulz, F. et al. CheckV assesses the quality and completeness of metagenome-assembled viral genomes. Nat Biotechnol 39, 578–585 (2021).[https://doi.org/10.1038/s41587-020-00774-7](https://doi.org/10.1038/s41587-020-00774-7)  
 
-合并所有`sample_id_virus_final.fna`为`GOHVGD.fna`
+合并所有`sample_id_virus_final.fna`为`GOHVGD_all_viral_contigs.fna`
 创建blast+ database  
 ```
-makeblastdb -in GOHVGD.fna -dbtype nucl -out ./GOHVGD_db
+makeblastdb -in GOHVGD_all_viral_contigs.fna -dbtype nucl -out ./GOHVGD_db
 ```
 对不同sample_id分别进行blastn比对,目的是为了加快处理速度以及降低内存资源消耗,为了确保全部的序列都能进入blastn报告结果,故设置max_target_seqs为一个极大值,用户可根据自己的数据库规模自行调整  
 ```
@@ -83,5 +83,5 @@ anicalc.py -i sample_id_blastn.txt -o sample_id_ani.txt
 ```
 Finally, perform CD-HIT-like clustering using the MIUVIG recommended-parameters (95% ANI + 85% AF):  
 ```
-aniclust.py --fna GOHVGD.fna --ani GOHVGD_ani.txt --out GOHVGD_clusters.txt --min_ani 95 --min_tcov 85 --min_qcov 0
+aniclust.py --fna GOHVGD_all_viral_contigs.fna --ani GOHVGD_ani.txt --out GOHVGD_vOTU_clusters.txt --min_ani 95 --min_tcov 85 --min_qcov 0
 ```
