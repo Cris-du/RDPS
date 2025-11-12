@@ -1,50 +1,72 @@
 # Virus–Host infective relationship prediction  
 ---
 ## Install dependencies  
-为了识别CRIPSR-SPACER序列  
-`CRT-mod version 2.0rev1`,内置CRISPR-spacer识别工具为[CRT](https://www.room220.com/crt/),相关配置方法可参照[CRT-mod](https://github.com/caseyh/crt-mod?tab=readme-ov-file)  
+### 为了识别CRIPSR-SPACER序列  
+`CRT-mod version 2.0rev1`,内置CRISPR-spacer识别工具为[CRT](https://www.room220.com/crt/),相关配置方法可参照[CRT-mod](https://github.com/caseyh/crt-mod)  
 
-为了进行BLASTn,也可通过checkv一起安装    
-`BLAST 2.12.0+`,相关配置方法来源于[blast+](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.12.0/)  
+### 为了进行blastn  
+`blastn 2.12.0+`,相关配置方法来源于[blastn+](https://ftp.ncbi.nlm.nih.gov/blastn/executables/blastn+/2.12.0/)  
 
-辅助脚本  
-`filter_short_blastn_result.py`  
-`filter_long_blastn_result.py`  
-`merge_short_long_blastn_result.py`  
-`derep_merge_result.py`  
-
-你需要可以运行以下命令  
+### 你需要可以运行以下命令  
 `blastn`  
 
-根据GOHMGD的MAG序列`ID_bin.fa`识别CRIPSR-SPACER序列  
+## 自定义脚本  
+### 标准化CRIPSR-SPACER序列结果  
+`standard_CRISPRs_raw_report.py`  
+### 筛选包含≥3个spacers的CRISPR簇  
+`filter_3_spacers.py`  
+### 过滤blastn结果  
+`filter_short_blastn_result.py`  
+`filter_long_blastn_result.py`  
+### 标准化两种方法的病毒-宿主分配结果  
+`standard_short_blastn_result.py`  
+`standard_long_blastn_result.py`  
+
+## 执行操作  
+### 构建GOHMGD的CRIPSR-SPACER数据集  
+识别GOHMGD中每个MAG基因组`bin_id.fna`的CRIPSR-SPACER序列  
 ```
-python crt-mod.py -i ID_bin.fa fasta -o ID_bin_CRISPRs_raw_report.txt --threads=1
+python ./crt-mod.py -i bin_id.fna fasta -o bin_id_CRISPRs_raw_report.txt --threads=1
+```
+提取并标准化GOHMGD的CRIPSR-SPACER序列结果  
+```
+python ./standard_CRISPRs_raw_report.py -i bin_id_CRISPRs_raw_report.txt -o bin_id_standard_CRISPRs.fna
+```
+筛选包含≥3个spacer序列的CRISPR簇  
+```
+python ./filter_3_spacers.py -i bin_id_standard_CRISPRs.fna -o bin_id_standard_more_3_CRISPRs.fna
 ```
 
-提取并标准化CRIPSR-SPACER序列结果  
+### GOHVGD-GOHMGD病毒-宿主识别  
+构建GOHVGD的blastn比对数据库
 ```
-python standard_CRISPRs_raw_report.py -i ID_bin_CRISPRs_raw_report.txt -o ID_standard_CRISPRs.fasta
+makeblastndb -in GOHVGD_all_viral_contigs.fna -dbtype nucl -out ./GOHVGD_all_viral_contigs_db
 ```
-构建GOHVGD的blastn比对db
+#### 基于CRIPSR-SPACER blastn进行病毒-宿主识别  
+GOHMGD的CRIPSR-SPACER序列与GOHVGD进行blastn比对  
 ```
-makeblastdb -in GOHVGD_nuc_seq.fa -dbtype nucl -out GOHVGD_nuc_seq_db
+blastn -query bin_id_standard_more_3_CRISPRs.fna -db ./GOHVGD_all_viral_contigs_db -task blastn-short -outfmt '6 std qlen slen' -max_target_seqs 50000000 -out bin_id_standard_more_3_CRISPRs_to_GOHVGD_blastn_out.txt -num_threads 1 -dust no
+```
+过滤CRIPSR-SPACER blastn结果(仅保留SNP≤1的匹配)
+```
+python ./filter_short_blastn_result.py -i bin_id_standard_more_3_CRISPRs_to_GOHVGD_blastn_out.txt -o filter_bin_id_crt_short_blastn.txt
+```
+标准化为基于CRIPSR-SPACER blastn的病毒-宿主分配结果  
+```
+python ./standard_short_blastn_result.py -i filter_bin_id_crt_short_blastn.txt -o bin_id_crt_virus-host_out.txt
+```
+#### 基于MAG-bin blastn进行病毒-宿主识别  
+GOHMGD的MAG-bin与GOHVGD进行blastn比对  
+```
+blastn -query bin_id.fna -db ./GOHVGD_all_viral_contigs_db -outfmt '6 std qlen slen' -max_target_seqs 50000000 -out bin_id_long_blastn.txt -num_threads 1 -dust no
+```
+过滤MAG bin blastn结果(仅保留匹配长度≥2500 bp的匹配)
+```
+python ./filter_long_blastn_result.py -i bin_id_long_blastn.txt -o filter_bin_id_long_blastn.txt
+```
+标准化为基于MAG-bin blastn的病毒-宿主分配结果  
+```
+python ./standard_long_blastn_result.py -i filter_bin_id_long_blastn.txt -o bin_id_virus-host_out.txt
 ```
 
-CRIPSR-SPACER序列与virus contigs进行blastn比对  
-```
-blastn -query ID_standard_CRISPRs.fasta -db GOHVGD_nuc_seq_db -task blastn-short -outfmt '6 std qlen slen' -max_target_seqs 50000000 -out ID_standard_CRISPRs_to_GOHVGD_blastn_out.txt -num_threads 1 -dust no
-```
-
-GOHMGD的MAG序列与virus contigs进行blastn比对  
-```
-blastn -query ID_bin.fa -db GOHVGD_nuc_seq_db -outfmt '6 std qlen slen' -max_target_seqs 50000000 -out ID_bin_long_blast.tsv -num_threads 1 -dust no
-```
-
-过滤short blastn与long blastn结果
-```
-python filter_short_blastn_result.py -i crt_short_blast.tsv -o filter_crt_short_blast.tsv
-```
-```
-python filter_long_blastn_result.py -i ID_bin_long_blast.tsv -o filter_ID_bin_long_blast.tsv
-```
-合并short blastn与long blastn，去重后得到GOHVGD与GOHMGD的病毒-宿主分配结果
+合并所有bin_id_crt_virus-host_out.txt与bin_id_virus-host_out.txt,去重得到GOHVGD与GOHMGD的最终病毒-宿主分配结果
