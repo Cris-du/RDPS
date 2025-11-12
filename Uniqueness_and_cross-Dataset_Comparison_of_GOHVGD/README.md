@@ -1,27 +1,27 @@
 # Uniqueness and cross-Dataset Comparison of GOHVGD
 ---
-## Install dependencies  
-为了标准化vOTU,PC,genus与family结果  
-`standard_map_result.py`  
-
-为了分配独特性与共享的vOTU,PC,genus与family结果  
+## 自定义脚本    
+### 为了分配独特性与共享的vOTU,PC,genus与family结果  
 `tiqu_belong.py`  
 
-构建不同来源环境的contigs与蛋白质比对文件  
-表格：seq1,gohvgd...  
+## 执行操作  
+### 准备vOTU,PC,genus与family成员的来源数据集文件`vOTU(pc/genus/family)_seq_belong.txt`  
+| seq name | source        |
+|----------|---------------|
+| seq1     | GOHVGD        |
+| seq2     | GOV2.0        |
+| seq3     | HVG-2025        |
+| seq4     | HVG-2022        |
 
-分别标准化vOTU,PC,genus与family结果  
-```
-python standard_map_result.py -m votu -it contigs_belong.txt -iv vOTU_map_cluster.tsv -o vOTU_standard_map_where.txt
-```  
-```
-python standard_map_result.py -m protein -it protein_belong.txt -iv pc_map_cluster.tsv -o pc_standard_map_where.txt
-```  
-```
-python standard_map_result.py -m mcl -it contigs_belong.txt -iv genus_map_cluster.tsv/family_map_cluster.tsv -o genus_standard_map_where.txt/family_standard_map_where.txt
-```  
+### 准备vOTU,PC,genus与family级别的聚类文件`vOTU(pc/genus/family)_cluster_seq_map.txt`
+| cluster name | seq members        |
+|----------|---------------|
+| vOTU(pc/genus/family)1     | seq1&seq2&seq3        |
+| vOTU(pc/genus/family)2     | seq4        |
+| vOTU(pc/genus/family)3     | seq5&seq6        |
+| vOTU(pc/genus/family)4     | seq7        |
 
-识别vOTU,PC,genus与family的成员来源,以确认独特性与共享性  
+### 识别vOTU,PC,genus与family的成员来源,以确认每个聚类的数据集独特性与共享性  
 ```
-python tiqu_belong.py -i vOTU/pc/genus/family_standard_map_where.txt -o vOTU/pc/genus/family_belong_where.txt
+python ./tiqu_belong.py -it vOTU(pc/genus/family)_seq_belong.txt -iv vOTU(pc/genus/family)_cluster_seq_map.txt -o vOTU(pc/genus/family)_belong_where.txt
 ```
