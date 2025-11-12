@@ -13,16 +13,16 @@
 ### 为了vOTU聚类  
 `anicalc.py`, `aniclust.py`来源于`checkv`,相关配置参照[checkv](https://bitbucket.org/berkeleylab/checkv/src/master/#markdown-header-checkv-database)  
 
-## 自定义脚本  
-### provirus边界识别与确认  
-`check_provirus.py`  
-
 ### 你需要可以运行以下命令  
 `seqkit`  
 `genomad`  
 `checkv`  
 `makeblastdb`  
 `blastn`  
+
+## 自定义脚本  
+### provirus边界识别与确认  
+`check_provirus.py`  
 
 ## 执行操作  
 ### 病毒识别  
