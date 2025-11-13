@@ -30,13 +30,13 @@ tome predOGT --fasta bin_id_protein.faa > bin_ID_ogt_out.txt
 hmmsearch --tblout bin_id_vs_ribosomal_out.txt --noali -E 1e-10 --domE 1e-10 ribosomal.hmm bin_id_protein.faa
 ```
 
-在`R`中安装好`gRodon`package后，对GOHMGD的MDT预测可参照脚本内容  
-```
-library(gRodon)
-library(Biostrings)
-genes <- readDNAStringSet(".../bin_id_orf.fna")
-highly_expressed <- read.table(".../bin_id.judge", header=TRUE, sep="\t")$judge
-r <- predictGrowth(genes, highly_expressed, mode="partial")
-d <- as.data.frame(r)
-write.table(d, ".../bin_id.gRodon2.txt", sep="\t")
-```
+在`R`中安装好`gRodon`package后，将`bin_id_orf.fna`与`bin_id.judge`文件路径输入脚本`gRodon_bin_id.R`即可  
+`bin_id.judge`文件包含该bin中的核糖体基因判断结果:  
+| gene           | judge |
+|----------------|-------|
+| gene_ribosomal | TRUE  |
+| gene_1         | FALSE |
+| gene_2         | FALSE |
+| gene_3         | FALSE |
+| gene_4         | FALSE |
+| gene_5         | FALSE |
