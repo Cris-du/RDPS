@@ -122,7 +122,7 @@ metaWRAP bin_refinement -t 40 -c 50 -x 5 -o ./sample_id_metabat2(maxbin)_bins_me
 gtdbtk download-data --data-dir ./gtdbtk_db --batch 4
 ```
 
-将GOHMGD的`*bin.fa`存放于同一目录内,如`./GOHMGD/*bin.fa`以进行gtdbtk分类  
+将GOHMGD的`bin_ID.fna`存放于同一目录内,如`./GOHMGD/*bin_ID.fna`以进行gtdbtk分类  
 ```
 gtdbtk classify_wf --genome_dir ./GOHMGD --out_dir ./GOHMGD_gtdbtk_skip --data_dir ./gtdbtk_db --skip_ani_screen -x fa --cpus 10 --pplacer_cpus 10
 ```
