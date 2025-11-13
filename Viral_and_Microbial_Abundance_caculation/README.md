@@ -86,7 +86,7 @@ filter_contig_depth.py -ic GOHVGD_SampleID_coverage_length_rate_0.7_seqname.txt 
 ```
 normalized_contigs_depth.py -rc SampleID_reads_counts -id GOHVGD_SampleID_mean_depth_clr_0.7.txt -o normalized_GOHVGD_SampleID_mean_depth_clr_0.7.txt
 ```
-### 微生物bin丰度计算(将所有MAG的`bin.fa`文件移动至统一目录`GOHMGD_bin_dir`)  
+### 微生物bin丰度计算(将所有MAG的`bin_id.fna`文件移动至统一目录`GOHMGD_bin_dir`)  
 ```
 coverm genome -d ./GOHMGD_bin_dir -b GOHMGD_map_double_sort_filtered_SampleID.bam -o GOHMGD_SampleID_coverm_meandepth.txt -m trimmed_mean -t 4
 ```
