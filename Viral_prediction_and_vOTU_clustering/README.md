@@ -48,7 +48,7 @@ checkv end_to_end ./sample_id_step1_genomad/sample_id_step1_genomad_summary/samp
 
 基于`./sample_id_step1_genomad_step1_checkv/quality_summary.tsv提取非provirus病毒、无需修剪的provirus以及经`checkv`修剪边界的provirus序列  
 ```
-python ./check_provirus.py -it ./sample_id_step1_genomad_step1_checkv/quality_summary.tsv -ifc ./sample_id_step1_genomad_step1_checkv/proviruses.fna -ifg ./sample_id_step1_genomad_step1_checkv/viruses.fna -o sample_id_no_provirus_virus.fna -og sample_id_provirus_part1.fna -ogc sample_id_provirus_part2.fna
+python ./check_provirus.py -it ./sample_id_step1_genomad_step1_checkv/quality_summary.tsv -ifc ./sample_id_step1_genomad_step1_checkv/proviruses.fna -ifg ./sample_id_step1_genomad/sample_id_step1_genomad_summary/sample_id_step1_genomad_virus.fna -o sample_id_no_provirus_virus.fna -og sample_id_provirus_part1.fna -ogc sample_id_provirus_part2.fna
 ```
 使用`genomad`对经`checkv`修剪边界的provirus序列进行二次病毒确认
 ```
