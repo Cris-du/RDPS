@@ -117,4 +117,4 @@ python ./filter_count_match_precent.py -i1 sample_id_vOTU_precontigs_complete_pr
 | virus_A  | X2   | R1     | K1       | P1      | C2     | D3     |
 | virus_A  | X3   | R1     | K1       | P2      | C3     | D4     |
 
-此时virus_A匹配的多条ICTV标准病毒中，Kingdom层级为未出现分类分歧的最低层级，类别为K1,故virus_A的分类为Realm：R1、Kingdom：K1,其余层级未知  
+此时virus_A匹配的多条ICTV标准病毒中，Kingdom层级为未出现分类分歧的最低层级，类别为K1,故virus_A的分类为Realm：R1、Kingdom：K1,其余层级未知,可参考脚本`merge_same_class_virus_taxa.py`
