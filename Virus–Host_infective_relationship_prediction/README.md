@@ -12,7 +12,8 @@
 
 ## 自定义脚本  
 ### 标准化CRIPSR-SPACER序列结果  
-`standard_CRISPRs_raw_report.py`  
+`trans_format_report.py`  
+`extract_spacer_seq.py`  
 ### 筛选包含≥3个spacers的CRISPR簇  
 `filter_3_spacers.py`  
 ### 过滤blastn结果  
@@ -30,11 +31,12 @@ python ./crt-mod.py -i bin_id.fna fasta -o bin_id_CRISPRs_raw_report.txt --threa
 ```
 提取并标准化GOHMGD的CRIPSR-SPACER序列结果  
 ```
-python ./standard_CRISPRs_raw_report.py -i bin_id_CRISPRs_raw_report.txt -o bin_id_standard_CRISPRs.fna
+python ./trans_format_report.py -i bin_id_CRISPRs_raw_report.txt -o bin_id_trans_CRISPRs_report.txt
+python ./standard_CRISPRs_raw_report.py -i bin_id_trans_CRISPRs_report.txt -o bin_id_standard_raw_CRISPRs.fna
 ```
 筛选包含≥3个spacer序列的CRISPR簇  
 ```
-python ./filter_3_spacers.py -i bin_id_standard_CRISPRs.fna -o bin_id_standard_more_3_CRISPRs.fna
+python ./filter_3_spacers.py -i bin_id_standard_raw_CRISPRs.fna -o bin_id_standard_more_3_CRISPRs.fna
 ```
 
 ### GOHVGD-GOHMGD病毒-宿主识别  
