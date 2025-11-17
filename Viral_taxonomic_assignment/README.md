@@ -18,9 +18,6 @@
 `mcl`  
 
 ## 自定义脚本  
-### 为了识别完整蛋白质  
-`filter_complete_protein.py`  
-
 ### 为了计算病毒蛋白质数目  
 `sum_virus_protein_counts.py`  
 
