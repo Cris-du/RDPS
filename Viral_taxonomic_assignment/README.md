@@ -95,7 +95,7 @@ diamond blastp --query sample_id_vOTU_precontigs_complete_protein.faa --db ./ict
 python ./sum_virus_protein_counts.py -i sample_id_vOTU_precontigs_complete_protein_protein.faa -o sample_id_vOTU_precontigs_complete_protein_counts.txt
 ```
 
-计算vOTU代表性contig完整蛋白质匹配ICTV分类学系统病毒蛋白质的数目  
+计算vOTU代表性contig完整蛋白质匹配ICTV标准病毒蛋白质的数目  
 ```
 python ./caculate_ryseq_match_refseq_protein_counts.py -i sample_id_vOTU_precontigs_complete_protein_blastp.txt -o sample_id_match_protein_counts.txt
 ```
@@ -105,8 +105,16 @@ python ./caculate_ryseq_match_refseq_protein_counts.py -i sample_id_vOTU_precont
 python ./percent_match_protein_jisuan.py -i1 sample_id_vOTU_precontigs_complete_protein_counts.txt -i2 sample_id_match_protein_counts.txt -o sample_id_match_protein_percent.txt
 ```
 
-提取各样本vOTU代表性contig病毒分类学分配结果  
+提取各样本vOTU代表性contig与ICTV标准病毒分配结果  
 ```
 python ./filter_count_match_precent.py -i1 sample_id_vOTU_precontigs_complete_protein_counts.txt -i2 sample_id_match_protein_percent.txt -o sample_id_match_protein_percent_filiter50_count5_filter.txt
 ```
-合并所有样本的vOTU代表性contig病毒分类学分配结果为最终GOHVGD vOTU代表性contig病毒分类学分配结果
+合并所有样本的vOTU代表性contig与ICTV标准病毒分配结果`GOHVGD_map_ICTV_msl39_v2.txt`  
+对于一条GOHVGD vOTU代表性contig匹配多条ICTV标准病毒的情况,采取这些ICTV标准病毒未出现分类分歧的最低层级类别作为其分类,如:
+| GOHVGD   | ICTV | Realm | Kingdom | Phylum | Class | Order |
+|----------|------|--------|----------|---------|--------|--------|
+| virus_A  | X1   | R1     | K1       | P1      | C1     | D1     |
+| virus_A  | X2   | R1     | K1       | P1      | C2     | D3     |
+| virus_A  | X3   | R1     | K1       | P2      | C3     | D4     |
+
+此时virus_A匹配的多条ICTV标准病毒中，Kingdom层级为未出现分类分歧的最低层级，类别为K1,故virus_A的分类为Realm：R1、Kingdom：K1,其余层级未知  
