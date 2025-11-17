@@ -19,9 +19,8 @@
 ### 过滤blastn结果  
 `filter_short_blastn_result.py`  
 `filter_long_blastn_result.py`  
-### 标准化两种方法的病毒-宿主分配结果  
-`standard_short_blastn_result.py`  
-`standard_long_blastn_result.py`  
+### 标准化病毒-宿主分配结果  
+`standard_blastn_result.py`  
 
 ## 执行操作  
 ### 构建GOHMGD的CRIPSR-SPACER数据集  
@@ -55,7 +54,7 @@ python ./filter_short_blastn_result.py -i bin_id_standard_more_3_CRISPRs_to_GOHV
 ```
 标准化为基于CRIPSR-SPACER blastn的病毒-宿主分配结果  
 ```
-python ./standard_short_blastn_result.py -i filter_bin_id_crt_short_blastn.txt -o bin_id_crt_virus-host_out.txt
+python ./standard_blastn_result.py -i filter_bin_id_crt_short_blastn.txt -o bin_id_crt_virus-host_out.txt
 ```
 #### 基于MAG-bin blastn进行病毒-宿主识别  
 GOHMGD的MAG-bin与GOHVGD进行blastn比对  
@@ -68,7 +67,6 @@ python ./filter_long_blastn_result.py -i bin_id_long_blastn.txt -o filter_bin_id
 ```
 标准化为基于MAG-bin blastn的病毒-宿主分配结果  
 ```
-python ./standard_long_blastn_result.py -i filter_bin_id_long_blastn.txt -o bin_id_virus-host_out.txt
+python ./standard_blastn_result.py -i filter_bin_id_long_blastn.txt -o bin_id_virus-host_out.txt
 ```
-
 合并所有bin_id_crt_virus-host_out.txt与bin_id_virus-host_out.txt,去重得到GOHVGD与GOHMGD的最终病毒-宿主分配结果
