@@ -5,8 +5,8 @@ import argparse
 def main():
     parser = argparse.ArgumentParser(description="Map cluster member sequences to their sources using a sequence-to-source table.")
     parser.add_argument("-it", required=True, help="Input TSV: sequence_name<tab>source (mapping file)")
-    parser.add_argument("-iv", required=True, help="Input TSV: rep_sequence<tab>seq1？seq2？seq3 (cluster file, tab-separated, members joined by '？')")
-    parser.add_argument("-o", required=True, help="Output file: rep_sequence<tab>source1？source2...")
+    parser.add_argument("-iv", required=True, help="Input TSV: rep_sequence<tab>seq1&seq2&seq3 (cluster file, tab-separated, members joined by '&')")
+    parser.add_argument("-o", required=True, help="Output file: rep_sequence<tab>source1&source2...")
     args = parser.parse_args()
 
     # Step 1: Build sequence -> source mapping from -it file
@@ -41,15 +41,15 @@ def main():
                     fout.write(f"{rep_seq}\t\n")
                     continue
 
-                # Split member sequences by '？'
-                follow_seqs = member_str.split('？')
+                # Split member sequences by '&'
+                follow_seqs = member_str.split('&')
                 sources = set()
                 for fs in follow_seqs:
                     src = seq_to_source.get(fs, 'unknown')
                     sources.add(src)
 
-                # Sort and join with '？'
-                sources_str = '？'.join(sorted(sources))
+                # Sort and join with '&'
+                sources_str = '&'.join(sorted(sources))
                 fout.write(f"{rep_seq}\t{sources_str}\n")
 
     print(f"Cluster source mapping saved to {args.o}")
