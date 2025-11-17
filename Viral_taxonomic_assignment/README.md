@@ -86,7 +86,7 @@ diamond makedb --in ictv_msl39v2_in_refseq_protein.faa --db ./ictv_msl39v2_in_re
 ```
 提取不同样本vOTU代表性contig序列的完整蛋白质序列,目的是为了加快处理速度以及降低内存资源消耗  
 ```
-python ./filter_complete_protein.py -i sample_id_vOTU_precontigs_protein.faa -o sample_id_vOTU_precontigs_complete_protein.faa
+awk '/^>/{keep=0} /^>.*partial=/ && /^>.*partial=00/{keep=1} keep' sample_id_vOTU_precontigs_protein.faa > sample_id_vOTU_precontigs_complete_protein.faa
 ```
 
 blastp比对  
