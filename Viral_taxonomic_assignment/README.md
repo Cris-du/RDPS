@@ -28,8 +28,7 @@
 `percent_match_protein_jisuan.py`  
 
 ### 为了提取最终识别结果  
-`filiter_percent_match.py`  
-`filiter_count_protein.py`  
+`filter_count_match_precent.py`  
 
 ## 执行操作  
 ### GOHVGD属级与科级分配  
@@ -107,12 +106,7 @@ python ./percent_match_protein_jisuan.py -i1 sample_id_vOTU_precontigs_complete_
 ```
 
 提取各样本vOTU代表性contig病毒分类学分配结果  
-step1  
 ```
-python ./filiter_percent_match.py -i sample_id_match_protein_percent.txt -o sample_id_match_protein_percent_filiter50.txt
-```
-step2  
-```
-python ./filiter_count_protein.py -i1 sample_id_vOTU_precontigs_complete_protein_counts.txt -i2 sample_id_match_protein_percent_filiter50.txt -o sample_id_match_protein_percent_filiter50_count5_filter.txt
+python ./filter_count_match_precent.py -i1 sample_id_vOTU_precontigs_complete_protein_counts.txt -i2 sample_id_match_protein_percent.txt -o sample_id_match_protein_percent_filiter50_count5_filter.txt
 ```
 合并所有样本的vOTU代表性contig病毒分类学分配结果为最终GOHVGD vOTU代表性contig病毒分类学分配结果
