@@ -50,17 +50,17 @@ diamond blastp --query sample_id_vOTU_precontigs_protein.faa --db ./GOHVGD_vOTU_
 
 根据blastp结果计算每个样本的AAI  
 ```
-python amino_acid_identity.py --in_faa sample_id_vOTU_precontigs_protein.faa --in_blast sample_id_vOTU_precontigs_protein_blastp.txt --out_tsv sample_id_vOTU_precontigs_protein_aai.txt
+python ./amino_acid_identity.py --in_faa sample_id_vOTU_precontigs_protein.faa --in_blast sample_id_vOTU_precontigs_protein_blastp.txt --out_tsv sample_id_vOTU_precontigs_protein_aai.txt
 ```
 
 过滤边缘并准备MCL输入  
 属级  
 ```
-python filter_aai.py --in_aai sample_id_vOTU_precontigs_protein_aai.txt --min_percent_shared 20 --min_num_shared 0 --min_aai 50 --out_tsv sample_id_vOTU_precontigs_protein_genus_edges.txt
+python ./filter_aai.py --in_aai sample_id_vOTU_precontigs_protein_aai.txt --min_percent_shared 20 --min_num_shared 0 --min_aai 50 --out_tsv sample_id_vOTU_precontigs_protein_genus_edges.txt
 ```
 科级  
 ```
-python filter_aai.py --in_aai sample_id_vOTU_precontigs_protein_aai.txt --min_percent_shared 10 --min_num_shared 0 --min_aai 20 --out_tsv sample_id_vOTU_precontigs_protein_family_edges.txt
+python ./filter_aai.py --in_aai sample_id_vOTU_precontigs_protein_aai.txt --min_percent_shared 10 --min_num_shared 0 --min_aai 20 --out_tsv sample_id_vOTU_precontigs_protein_family_edges.txt
 ```
 对属级和科级的`edges.txt`分别进行合并为`GOHVGD_genus_edges.txt`和`GOHVGD_family_edges.txt`  
 ```
@@ -93,26 +93,26 @@ diamond blastp --query sample_id_vOTU_precontigs_complete_protein.faa --db ./ict
 
 计算vOTU代表性contig的完整蛋白质数目  
 ```
-python sum_virus_protein_counts.py -i sample_id_vOTU_precontigs_complete_protein_protein.faa -o sample_id_vOTU_precontigs_complete_protein_counts.txt
+python ./sum_virus_protein_counts.py -i sample_id_vOTU_precontigs_complete_protein_protein.faa -o sample_id_vOTU_precontigs_complete_protein_counts.txt
 ```
 
 计算vOTU代表性contig完整蛋白质匹配ICTV分类学系统病毒蛋白质的数目  
 ```
-python caculate_ryseq_match_refseq_protein_counts.py -i sample_id_vOTU_precontigs_complete_protein_blastp.txt -o sample_id_match_protein_counts.txt
+python ./caculate_ryseq_match_refseq_protein_counts.py -i sample_id_vOTU_precontigs_complete_protein_blastp.txt -o sample_id_match_protein_counts.txt
 ```
 
 计算匹配蛋白质百分比  
 ```
-python percent_match_protein_jisuan.py -i1 sample_id_vOTU_precontigs_complete_protein_counts.txt -i2 sample_id_match_protein_counts.txt -o sample_id_match_protein_percent.txt
+python ./percent_match_protein_jisuan.py -i1 sample_id_vOTU_precontigs_complete_protein_counts.txt -i2 sample_id_match_protein_counts.txt -o sample_id_match_protein_percent.txt
 ```
 
 提取各样本vOTU代表性contig病毒分类学分配结果  
 step1  
 ```
-python filiter_percent_match.py -i sample_id_match_protein_percent.txt -o sample_id_match_protein_percent_filiter50.txt
+python ./filiter_percent_match.py -i sample_id_match_protein_percent.txt -o sample_id_match_protein_percent_filiter50.txt
 ```
 step2  
 ```
-python filiter_count_protein.py -i1 sample_id_vOTU_precontigs_complete_protein_counts.txt -i2 sample_id_match_protein_percent_filiter50.txt -o sample_id_match_protein_percent_filiter50_count5_filter.txt
+python ./filiter_count_protein.py -i1 sample_id_vOTU_precontigs_complete_protein_counts.txt -i2 sample_id_match_protein_percent_filiter50.txt -o sample_id_match_protein_percent_filiter50_count5_filter.txt
 ```
 合并所有样本的vOTU代表性contig病毒分类学分配结果为最终GOHVGD vOTU代表性contig病毒分类学分配结果
