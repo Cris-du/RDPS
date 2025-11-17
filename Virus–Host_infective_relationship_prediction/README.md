@@ -69,4 +69,4 @@ python ./filter_long_blastn_result.py -i bin_id_long_blastn.txt -o filter_bin_id
 ```
 python ./standard_blastn_result.py -i filter_bin_id_long_blastn.txt -o bin_id_virus-host_out.txt
 ```
-合并所有bin_id_crt_virus-host_out.txt与bin_id_virus-host_out.txt,去重得到GOHVGD与GOHMGD的最终病毒-宿主分配结果
+合并所有`bin_id_crt_virus-host_out.txt`与`bin_id_virus-host_out.txt`,去重得到GOHVGD与GOHMGD的最终病毒-宿主分配结果
