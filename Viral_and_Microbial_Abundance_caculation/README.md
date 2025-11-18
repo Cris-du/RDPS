@@ -66,7 +66,7 @@ samtools sort -@ 4 -m 4G -o GOHVGD(GOHMGD)_map_double_sort_filtered_SampleID.bam
 ### 病毒丰度计算  
 生成`bed`文件与`contig_length.txt`  
 ```
-bed_contigs.py GOHVGD_contigs_seq.fasta GOHVGD_contigs_seq.bed  
+python ./bed_contigs.py GOHVGD_contigs_seq.fasta GOHVGD_contigs_seq.bed  
 contig_length.py GOHVGD_contigs_seq.fasta GOHVGD_contigs_length.txt
 ```
 viral contig覆盖长度比率计算  
@@ -79,12 +79,12 @@ bamm parse -b GOHVGD_map_double_sort_filtered_SampleID.bam -m tpmean -t 2 -c GOH
 ```
 筛选出覆盖长度比率＞0.7的viral contig平均覆盖深度结果  
 ```
-filter_coverage_result_seqname.py -i GOHVGD_SampleID_coverage_length_rate.txt -o GOHVGD_SampleID_coverage_length_rate_0.7_seqname.txt -c 0.7  
-filter_contig_depth.py -ic GOHVGD_SampleID_coverage_length_rate_0.7_seqname.txt -id GOHVGD_SampleID_mean_depth.txt -o GOHVGD_SampleID_mean_depth_clr_0.7.txt
+python ./filter_coverage_result_seqname.py -i GOHVGD_SampleID_coverage_length_rate.txt -o GOHVGD_SampleID_coverage_length_rate_0.7_seqname.txt -c 0.7  
+python ./filter_contig_depth.py -ic GOHVGD_SampleID_coverage_length_rate_0.7_seqname.txt -id GOHVGD_SampleID_mean_depth.txt -o GOHVGD_SampleID_mean_depth_clr_0.7.txt
 ```
 标准化病毒contigs丰度  
 ```
-normalized_contigs_depth.py -rc SampleID_reads_counts -id GOHVGD_SampleID_mean_depth_clr_0.7.txt -o normalized_GOHVGD_SampleID_mean_depth_clr_0.7.txt
+python ./normalized_contigs_depth.py -rc SampleID_reads_counts -id GOHVGD_SampleID_mean_depth_clr_0.7.txt -o normalized_GOHVGD_SampleID_mean_depth_clr_0.7.txt
 ```
 ### 微生物bin丰度计算(将所有MAG的`bin_id.fna`文件移动至统一目录`GOHMGD_bin_dir`)  
 ```
@@ -92,5 +92,5 @@ coverm genome -d ./GOHMGD_bin_dir -b GOHMGD_map_double_sort_filtered_SampleID.ba
 ```
 标准化MAG bin丰度  
 ```
-normalized_bin_depth.py -rc SampleID_reads_counts -id GOHMGD_SampleID_coverm_meandepth.txt -o normalized_GOHMGD_SampleID_coverm_meandepth.txt
+python ./normalized_bin_depth.py -rc SampleID_reads_counts -id GOHMGD_SampleID_coverm_meandepth.txt -o normalized_GOHMGD_SampleID_coverm_meandepth.txt
 ```
