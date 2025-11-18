@@ -11,11 +11,7 @@
 ### 你需要可以运行以下命令  
 `virsorter2.sif`  
 `DRAM-v.py`  
-`diamond`  
-
-## 自定义脚本  
-### 为了召回GOHVGD原始蛋白质数据集  
-`tiqu_raw_protein_map_seqname.py`  
+`diamond`    
 
 ## 执行操作
 ### 病毒蛋白功能多样性注释  
@@ -45,6 +41,6 @@ diamond blastp --query GOHVGD_vOTU_precontigs_protein.faa --db GOHVGD_vOTU_preco
 ```
 进行相同病毒蛋白质名称对应结果提取  
 ```
-python ./tiqu_raw_protein_map_seqname.py -i GOHVGD_vOTU_precontigs_protein_map_dramv_out_blastp.txt -o GOHVGD_vOTU_precontigs_protein_map_dramv_protein_seqname_map.txt
+cut -f1,2 GOHVGD_vOTU_precontigs_protein_map_dramv_out_blastp.txt > GOHVGD_vOTU_precontigs_protein_map_dramv_protein_seqname_map.txt
 ```
 根据`GOHVGD_vOTU_precontigs_protein_map_dramv_protein_seqname_map.txt`对`./GOHVGD_vOTU_precontigs_virsoter2_dramv_annot/annotations.tsv`与`GOHVGD_vOTU_precontigs_raw_amg.txt`进行GOHVGD结果召回，获得最终GOHVGD的蛋白质功能注释结果以及AMG注释结果。  
