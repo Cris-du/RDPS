@@ -67,7 +67,7 @@ samtools sort -@ 4 -m 4G -o GOHVGD(GOHMGD)_map_double_sort_filtered_SampleID.bam
 生成`bed`文件与`contig_length.txt`  
 ```
 python ./bed_contigs.py GOHVGD_contigs_seq.fasta GOHVGD_contigs_seq.bed  
-contig_length.py GOHVGD_contigs_seq.fasta GOHVGD_contigs_length.txt
+python ./contig_length.py GOHVGD_contigs_seq.fasta GOHVGD_contigs_length.txt
 ```
 viral contig覆盖长度比率计算  
 ```
