@@ -32,7 +32,7 @@
 
 ## 执行操作  
 ### contigs拼接  
-使用`fastp`进行reads质控（包括修剪, 去除接头）
+使用`fastp`进行reads质控（包括修剪, 去除接头）  
 准备已经下载好的宏基因组测序reads文件  
 单端测序：`run_id_single_reads.fq.gz`  
 双端测序：`run_id_forward_reads.fq.gz`, `run_id_reverse_reads.fq.gz`  
