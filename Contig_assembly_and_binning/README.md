@@ -2,7 +2,7 @@
 ---
 ## Install dependencies  
 ### 为了reads质控  
-`fastp 0.23.3`,相关配置方法可参照[fastp](https://github.com/OpenGene/fastp)  
+`fastp v0.23.3`,相关配置方法可参照[fastp](https://github.com/OpenGene/fastp)  
 
 ### 为了拼接contigs与过滤≥ 1kb contigs  
 `MEGAHIT v1.2.9`,相关配置方法可参照[megahit](https://github.com/voutcn/megahit)  
