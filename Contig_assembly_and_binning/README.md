@@ -37,23 +37,23 @@
 单端测序：`run_id_single_reads.fq.gz`  
 双端测序：`run_id_forward_reads.fq.gz`, `run_id_reverse_reads.fq.gz`  
 
-单端  
-```
-fastp -i run_id_single_reads.fq.gz -o run_id_single_fastped_reads.fq.gz -h run_id_single_fastped_reads_report.html -Q --thread=20 --length_required=15 --n_base_limit=5 --compression=6
-```
-双端  
-```
-fastp -i run_id_forward_reads.fq.gz -I run_id_reverse_reads.fq.gz -o run_id_forward_fastped_reads.fq.gz -O run_id_reverse_fastped_reads.fq.gz -h run_id_paired_fastped_reads_report.html -Q --thread=20 --length_required=15 --n_base_limit=5 --compression=6
-```
-
 合并相同样本的不同测序reads文件  
 单端文件  
 ```
-cat ./sample_id/*single_fastped_reads.fq.gz > sample_id_merge_single_fastped_reads.fq.gz
+cat ./sample_id/*_single_reads.fq.gz > sample_id_merge_single_reads.fq.gz
 ```
 双端文件  
 ```
-cat ./sample_id/*forward_fastped_reads.fq.gz > sample_id_merge_forward_fastped_reads.fq.gz, cat ./sample_id/*reverse_fastped_reads.fq.gz > sample_id_merge_reverse_fastped_reads.fq.gz
+cat ./sample_id/*_forward_reads.fq.gz > sample_id_merge_forward_reads.fq.gz, cat ./sample_id/*_reverse_reads.fq.gz > sample_id_merge_reverse_reads.fq.gz
+
+```
+单端  
+```
+fastp -i sample_id_merge_single_reads.fq.gz -o sample_id_merge_single_fastped_reads.fq.gz -h sample_id_merge_single_fastped_reads_report.html -Q --thread=20 --length_required=15 --n_base_limit=5 --compression=6
+```
+双端  
+```
+fastp -i sample_id_merge_forward_reads.fq.gz -I sample_id_merge_reverse_reads.fq.gz -o sample_id_merge_forward_fastped_reads.fq.gz -O sample_id_merge_reverse_fastped_reads.fq.gz --unpaired1 sample_id_merge_forward_unpaired_fastped_reads.fq.gz --unpaired2 sample_id_merge_reverse_unpaired_fastped_reads.fq.gz -h sample_id_merge_paired_fastped_reads_report.html -Q --thread=20 --length_required=15 --n_base_limit=5 --compression=6
 ```
 
 使用`megahit`进行contig拼接  
